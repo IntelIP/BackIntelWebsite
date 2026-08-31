@@ -29,22 +29,28 @@
       "type": "schema",
       "argv": ["npm", "run", "validate:profile"],
       "cwd": ".",
-      "timeoutSeconds": 30,
+      "timeoutMs": 30000,
       "required": true,
-      "evidencePath": "artifacts/validation/design-profile.json",
-      "thresholds": [],
-      "costPolicy": { "state": "not_applicable", "maxUsd": 0 }
+      "evidence": { "path": "artifacts/validation/design-profile.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
     },
     {
       "id": "astro-static-build",
       "type": "static",
       "argv": ["npm", "run", "build"],
       "cwd": ".",
-      "timeoutSeconds": 120,
+      "timeoutMs": 120000,
       "required": true,
-      "evidencePath": "artifacts/validation/astro-build.json",
-      "thresholds": [],
-      "costPolicy": { "state": "not_applicable", "maxUsd": 0 }
+      "evidence": { "path": "artifacts/validation/astro-build.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
     }
   ]
 }
