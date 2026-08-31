@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "tabellio-validation/v0.2",
+  "id": "portfolio-site-design-specimen",
+  "requireEntireCheckpoint": false,
+  "failFast": true,
+  "acceptance": {
+    "id": "portfolio-site-local-specimen",
+    "source": "docs/design-language.md and the approved localhost specimen brief",
+    "risk": "medium",
+    "outcomes": [
+      "Astro renders a substantial monochrome portfolio and design-system specimen.",
+      "Product accents remain scoped to product identity and action roles.",
+      "The design profile stays machine-readable and deterministically validated."
+    ],
+    "invariants": [
+      "The prototype remains static and performs no Neon or production writes.",
+      "The base palette remains black, white, and gray.",
+      "Product accents do not become generic semantic status colors."
+    ],
+    "forbiddenOutcomes": [
+      "SSR, database access, external deployment, or secret use is introduced by the prototype.",
+      "Visual readiness is reported without rendered review."
+    ],
+    "requiredValidatorTypes": ["static", "schema"]
+  },
+  "validators": [
+    {
+      "id": "design-profile-schema",
+      "type": "schema",
+      "argv": ["npm", "run", "validate:profile"],
+      "cwd": ".",
+      "timeoutSeconds": 30,
+      "required": true,
+      "evidencePath": "artifacts/validation/design-profile.json",
+      "thresholds": [],
+      "costPolicy": { "state": "not_applicable", "maxUsd": 0 }
+    },
+    {
+      "id": "astro-static-build",
+      "type": "static",
+      "argv": ["npm", "run", "build"],
+      "cwd": ".",
+      "timeoutSeconds": 120,
+      "required": true,
+      "evidencePath": "artifacts/validation/astro-build.json",
+      "thresholds": [],
+      "costPolicy": { "state": "not_applicable", "maxUsd": 0 }
+    }
+  ]
+}

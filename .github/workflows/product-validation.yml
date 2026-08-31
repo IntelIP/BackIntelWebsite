@@ -1,0 +1,37 @@
+name: Product validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run validate:profile
+      - name: Build and record evidence
+        shell: bash
+        run: |
+          set +e
+          npm run build > artifacts/validation/astro-build.log 2>&1
+          status=$?
+          node scripts/record-build-evidence.mjs "$status"
+          exit "$status"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: portfolio-site-validation-${{ github.sha }}
+          path: artifacts/validation

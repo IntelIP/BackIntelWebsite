@@ -1,0 +1,22 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "IntelIP — Product systems with a signal",
+  description = "A monochrome portfolio system for IntelIP products, experiments, and evidence.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0A0A0A" />
+    <title>{title}</title>
+  </head>
+  <body id="top">
+    <slot />
+  </body>
+</html>

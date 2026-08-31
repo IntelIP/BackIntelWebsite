@@ -1,0 +1,36 @@
+---
+const { project, index } = Astro.props;
+---
+
+<article
+  class="project-card"
+  id={`project-${project.code.toLowerCase()}`}
+  style={`--project-accent: ${project.accent}`}
+>
+  <div class="project-card__accent-line" aria-hidden="true"></div>
+  <div class="project-card__topline">
+    <span class="project-card__index">0{index}</span>
+    <span class="project-card__kind">{project.kind}</span>
+  </div>
+
+  <div class="project-card__identity">
+    <div>
+      <p class="project-card__eyebrow">{project.code} / {project.status}</p>
+      <h3>{project.name}</h3>
+    </div>
+    <span class="project-card__mark" aria-label={`${project.name} accent`}>
+      {project.mark}
+    </span>
+  </div>
+
+  <p class="project-card__summary">{project.summary}</p>
+
+  <div class="project-card__tags" aria-label={`${project.name} themes`}>
+    {project.tags.map((tag) => <span>{tag}</span>)}
+  </div>
+
+  <div class="project-card__footer">
+    <span class="project-card__signal"><span></span> signal under review</span>
+    <a href="#system">View pattern <span aria-hidden="true">↗</span></a>
+  </div>
+</article>

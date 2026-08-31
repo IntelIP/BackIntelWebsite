@@ -1,0 +1,115 @@
+{
+  "product": "IntelIP PortfolioSite",
+  "version": "0.1.0",
+  "status": "foundation-approved",
+  "visualThesis": "Monochrome technical editorial: black, white, and gray foundation with controlled product-specific accents.",
+  "audience": {
+    "primary": "prospective users, customers, and partners",
+    "secondary": "technical collaborators and evaluators",
+    "reviewBeforeVisualLock": true
+  },
+  "references": [
+    {
+      "name": "Vercel Geist color system",
+      "url": "https://vercel.com/geist/colors",
+      "role": "neutral color scale and semantic roles"
+    },
+    {
+      "name": "Linear UI redesign",
+      "url": "https://linear.app/now/how-we-redesigned-the-linear-ui",
+      "role": "neutral base, accent, contrast, and opacity discipline"
+    },
+    {
+      "name": "shadcn/ui Typeset",
+      "url": "https://ui.shadcn.com/docs/typeset",
+      "role": "body, heading, mono, and content rhythm roles"
+    }
+  ],
+  "tokens": {
+    "color": {
+      "light": {
+        "canvas": "#FFFFFF",
+        "surface": "#F5F5F5",
+        "surfaceRaised": "#FFFFFF",
+        "border": "#E5E5E5",
+        "text": "#171717",
+        "textMuted": "#737373"
+      },
+      "dark": {
+        "canvas": "#0A0A0A",
+        "surface": "#151515",
+        "surfaceRaised": "#1C1C1C",
+        "border": "#292929",
+        "text": "#F5F5F5",
+        "textMuted": "#A3A3A3"
+      },
+      "accentPolicy": {
+        "neutralShareTarget": "90-95%",
+        "allowedRoles": ["product-marker", "active-link", "primary-cta", "focus-treatment"],
+        "disallowedDefaultRoles": ["full-page-background", "generic-success", "generic-warning", "generic-error"]
+      }
+    },
+    "typography": {
+      "sans": "Inter Variable",
+      "mono": "JetBrains Mono Variable",
+      "fontSourceStatus": "provisional; self-host during implementation",
+      "bodyLineHeight": 1.6,
+      "readingMeasureCharacters": "65-75"
+    },
+    "layout": {
+      "container": "shared centered responsive container",
+      "grid": "consistent responsive grid",
+      "mobile": "intentional composition, not desktop-only stacking"
+    }
+  },
+  "productAccents": {
+    "n10-ip": {
+      "label": "N10 IP",
+      "accent": "#2563EB",
+      "status": "provisional"
+    },
+    "neural": {
+      "label": "Neural",
+      "accent": "#16A34A",
+      "status": "provisional"
+    }
+  },
+  "componentPolicy": {
+    "primitiveSource": "shadcn/ui source components",
+    "ownedLayer": "IntelIP wrappers, tokens, page recipes, and product themes",
+    "namedPatterns": [
+      "ProjectCard",
+      "ProjectStatus",
+      "ProductAccentMarker",
+      "ScreenshotFrame",
+      "TechnicalMetadata",
+      "ProjectHero",
+      "SectionHeader",
+      "DesignSpecPreview"
+    ]
+  },
+  "requiredStates": [
+    "default",
+    "hover",
+    "focus-visible",
+    "disabled",
+    "loading",
+    "empty",
+    "error",
+    "long-content"
+  ],
+  "requiredViewports": ["mobile", "desktop"],
+  "validation": {
+    "visualBaselineStatus": "pending",
+    "humanApprovalRequired": true,
+    "reviewRenderedOutput": true,
+    "contrastValidationRequired": true
+  },
+  "openDecisions": [
+    "primary audience and conversion action",
+    "final sans and mono families",
+    "exact accent values and foreground pairs",
+    "container widths, breakpoints, and spacing scale",
+    "approved visual direction and reference lock"
+  ]
+}

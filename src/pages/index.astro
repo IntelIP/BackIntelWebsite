@@ -1,0 +1,277 @@
+---
+import Shell from "../layouts/Shell.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+
+const projects = [
+  {
+    code: "N10",
+    name: "N10 IP",
+    kind: "Product platform",
+    status: "shaping",
+    mark: "N",
+    accent: "#2563EB",
+    summary: "A focused surface for turning complex IP context into clear next actions.",
+    tags: ["signal", "IP", "workflow"],
+  },
+  {
+    code: "NRL",
+    name: "Neural",
+    kind: "Intelligence layer",
+    status: "concept",
+    mark: "∿",
+    accent: "#16A34A",
+    summary: "An adaptive intelligence surface for exploring signals, context, and decisions.",
+    tags: ["context", "models", "decisions"],
+  },
+  {
+    code: "TAB",
+    name: "Tabellio",
+    kind: "Evidence system",
+    status: "building",
+    mark: "T",
+    accent: "#A3A3A3",
+    summary: "A provenance-first system for making delivery evidence easier to inspect.",
+    tags: ["proof", "provenance", "delivery"],
+  },
+];
+
+const metrics = [
+  { value: "03", label: "active product directions" },
+  { value: "01", label: "shared visual language" },
+  { value: "∞", label: "room for signal" },
+];
+
+const method = [
+  {
+    number: "01",
+    title: "Frame the signal",
+    copy: "Start with the user, the outcome, and the evidence that deserves attention.",
+  },
+  {
+    number: "02",
+    title: "Build the smallest system",
+    copy: "Keep the base quiet. Give each product only the accent and pattern it needs.",
+  },
+  {
+    number: "03",
+    title: "Prove it in the browser",
+    copy: "Render real content at real breakpoints before calling the language finished.",
+  },
+];
+---
+
+<Shell>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="topbar__wordmark" href="/" aria-label="IntelIP home">
+        <span class="topbar__mark">I</span>
+        <span>INTELIP</span>
+        <small>PORTFOLIO SYSTEM / V0.1</small>
+      </a>
+      <nav class="topbar__nav" aria-label="Main navigation">
+        <a href="#projects">Projects</a>
+        <a href="#system">System</a>
+        <a href="#method">Method</a>
+      </nav>
+      <a class="topbar__status" href="#system"><span></span> Design direction</a>
+    </header>
+
+    <main>
+      <section class="hero section-grid" aria-labelledby="hero-title">
+        <div class="hero__gridline" aria-hidden="true"></div>
+        <div class="container hero__inner">
+          <div class="hero__eyebrow eyebrow">
+            <span class="eyebrow__line"></span>
+            <span>Independent product studio / 2026</span>
+          </div>
+
+          <div class="hero__content">
+            <div class="hero__title-wrap">
+              <p class="hero__index">INDEX / 001</p>
+              <h1 id="hero-title">Software<br /><span>with a signal.</span></h1>
+            </div>
+            <div class="hero__aside">
+              <p class="hero__lead">
+                A shared home for focused products, useful experiments, and the evidence
+                behind how they are built.
+              </p>
+              <div class="hero__actions">
+                <a class="button button--solid" href="#projects">Explore projects <span>↘</span></a>
+                <a class="button button--quiet" href="#system">View the system</a>
+              </div>
+              <p class="hero__note mono">BASE / MONOCHROME &nbsp;&nbsp; ACCENTS / PER PRODUCT</p>
+            </div>
+          </div>
+
+          <div class="hero__rail" aria-label="System summary">
+            <div><span class="mono">01</span><strong>MONOCHROME BASE</strong><small>black / white / gray</small></div>
+            <div><span class="mono">02</span><strong>PRODUCT SIGNAL</strong><small>one accent per product</small></div>
+            <div><span class="mono">03</span><strong>STATIC FIRST</strong><small>fast, clear, portable</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section section--dark" aria-labelledby="projects-title">
+        <div class="container">
+          <div class="section-heading section-heading--inverse">
+            <div>
+              <p class="eyebrow"><span class="eyebrow__line"></span>01 / Work in motion</p>
+              <h2 id="projects-title">Different products.<br /><span>Shared discipline.</span></h2>
+            </div>
+            <p>
+              The shell stays neutral so each project can carry one clear signal. Cards,
+              metadata, and evidence follow the same rhythm.
+            </p>
+          </div>
+
+          <div class="project-grid">
+            {projects.map((project, index) => <ProjectCard project={project} index={index + 1} />)}
+          </div>
+
+          <div class="metric-grid">
+            {metrics.map((metric) => (
+              <div class="metric">
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="system" class="section section--paper" aria-labelledby="system-title">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow__line"></span>02 / Design language</p>
+              <h2 id="system-title">The base stays quiet.<br /><span>The products bring signal.</span></h2>
+            </div>
+            <p>
+              A living specimen for the rules behind the portfolio: neutral surfaces,
+              readable type, deliberate density, and accents with a job.
+            </p>
+          </div>
+
+          <div class="specimen-grid">
+            <article class="specimen-card specimen-card--palette">
+              <div class="specimen-card__header">
+                <span class="mono">COLOR / 01</span>
+                <span>neutral foundation</span>
+              </div>
+              <div class="swatch-list">
+                <div class="swatch swatch--white"><span></span><div><strong>WHITE</strong><small>#FFFFFF / canvas</small></div></div>
+                <div class="swatch swatch--gray"><span></span><div><strong>GRAY</strong><small>#F5F5F5 / surface</small></div></div>
+                <div class="swatch swatch--line"><span></span><div><strong>LINE</strong><small>#E5E5E5 / border</small></div></div>
+                <div class="swatch swatch--black"><span></span><div><strong>BLACK</strong><small>#0A0A0A / canvas</small></div></div>
+              </div>
+              <div class="accent-row">
+                <span class="accent-chip accent-chip--blue"><i></i>N10 IP / blue</span>
+                <span class="accent-chip accent-chip--green"><i></i>Neural / green</span>
+              </div>
+            </article>
+
+            <article class="specimen-card specimen-card--type">
+              <div class="specimen-card__header">
+                <span class="mono">TYPE / 02</span>
+                <span>inter variable / jetbrains mono</span>
+              </div>
+              <p class="type-display">Signal,<br />not noise.</p>
+              <p class="type-body">
+                A clear type system gives the content room to work. Headlines carry
+                direction. Body copy carries meaning. Mono carries technical context.
+              </p>
+              <p class="type-mono">N10 / STATUS / SHAPING / 2026</p>
+            </article>
+
+            <article class="specimen-card specimen-card--controls">
+              <div class="specimen-card__header">
+                <span class="mono">UI / 03</span>
+                <span>quiet controls / clear actions</span>
+              </div>
+              <div class="control-stack">
+                <div class="control-row">
+                  <a class="button button--solid" href="#projects">Primary action <span>↗</span></a>
+                  <a class="button button--outline" href="#method">Secondary</a>
+                </div>
+                <div class="control-row">
+                  <span class="status-pill"><i></i> system ready</span>
+                  <span class="status-pill status-pill--blue"><i></i> N10 IP</span>
+                  <span class="status-pill status-pill--green"><i></i> Neural</span>
+                </div>
+                <div class="fake-input"><span class="mono">SEARCH PROJECTS</span><kbd>⌘ K</kbd></div>
+              </div>
+            </article>
+
+            <article class="specimen-card specimen-card--dark">
+              <div class="specimen-card__header">
+                <span class="mono">SURFACE / 04</span>
+                <span>dark theme / raised content</span>
+              </div>
+              <div class="dark-sample">
+                <div class="dark-sample__top"><span class="dark-sample__dot"></span><span class="mono">PROJECT / N10 IP</span><span class="dark-sample__arrow">↗</span></div>
+                <h3>Make the important thing easy to see.</h3>
+                <p>Accent enters only where product identity or action needs a signal.</p>
+                <div class="dark-sample__footer"><span class="status-pill status-pill--blue"><i></i> shaping</span><span class="mono">N10 / 01</span></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="system-callout">
+            <span class="system-callout__mark">+</span>
+            <p>Standardize the grammar. Let the products keep their voice.</p>
+            <a href="#method" class="text-link">See the method <span>↘</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="method" class="section section--gray" aria-labelledby="method-title">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow__line"></span>03 / Operating method</p>
+              <h2 id="method-title">Make the system<br /><span>earn its complexity.</span></h2>
+            </div>
+            <p>
+              The first version should be useful before it is complete. Every rule earns
+              its place by making a product easier to understand or operate.
+            </p>
+          </div>
+
+          <div class="method-grid">
+            {method.map((item) => (
+              <article class="method-card">
+                <span class="method-card__number mono">{item.number}</span>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+                <span class="method-card__arrow" aria-hidden="true">↘</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="signal-banner section--dark" aria-label="Design principle">
+        <div class="container signal-banner__inner">
+          <p class="mono">DESIGN PRINCIPLE / 001</p>
+          <blockquote>“The base stays quiet so the products can speak.”</blockquote>
+          <span class="signal-banner__line" aria-hidden="true"></span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div>
+          <p class="footer__wordmark">INTELIP<span>/</span></p>
+          <p class="footer__note">A working specimen for a shared product language.</p>
+        </div>
+        <div class="footer__meta mono">
+          <span>STATIC FIRST</span>
+          <span>NEUTRAL BASE</span>
+          <span>ACCENT BY PRODUCT</span>
+        </div>
+        <a class="footer__top" href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Back to top ↑</a>
+      </div>
+    </footer>
+  </div>
+</Shell>
