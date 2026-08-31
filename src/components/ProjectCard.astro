@@ -31,6 +31,6 @@ const { project, index } = Astro.props;
 
   <div class="project-card__footer">
     <span class="project-card__signal"><span></span> signal under review</span>
-    <a href="#system">View pattern <span aria-hidden="true">↗</span></a>
+    <a href={project.href ?? "#system"}>View pattern <span aria-hidden="true">↗</span></a>
   </div>
 </article>
