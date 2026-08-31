@@ -1,0 +1,66 @@
+---
+const { project, index } = Astro.props;
+---
+
+<article class="artifact-card" style={`--artifact-accent: ${project.accent}`}>
+  <div class="artifact-card__topline">
+    <span>ARTIFACT / 0{index}</span>
+    <span>{project.mediaType}</span>
+  </div>
+
+  <div class="artifact-window" aria-label={`${project.name} interface preview`}>
+    <div class="artifact-window__chrome">
+      <span class="artifact-window__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>{project.previewPath}</span>
+      <span aria-hidden="true">↗</span>
+    </div>
+
+    <div class={`artifact-ui artifact-ui--${project.preview}`}>
+      <aside class="artifact-ui__rail" aria-hidden="true">
+        <span class="artifact-ui__rail-mark">{project.mark}</span>
+        <i></i><i></i><i></i><i></i>
+        <b></b>
+      </aside>
+
+      <div class="artifact-ui__body">
+        <div class="artifact-ui__title">
+          <div>
+            <span>{project.code} / LIVE VIEW</span>
+            <strong>{project.previewTitle}</strong>
+          </div>
+          <em>{project.previewBadge}</em>
+        </div>
+
+        <div class="artifact-ui__chart" aria-hidden="true">
+          <div class="artifact-ui__chart-labels"><span>signal</span><span>now</span></div>
+          <div class="artifact-ui__bars">
+            {project.previewBars.map((height) => <i style={`--bar-height: ${height}%`}></i>)}
+          </div>
+        </div>
+
+        <div class="artifact-ui__rows">
+          {project.previewRows.map((row) => (
+            <div><span>{row.label}</span><strong>{row.value}</strong></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="artifact-card__footer">
+    <div>
+      <span class="artifact-card__eyebrow">{project.name} / {project.mediaType}</span>
+      <strong>{project.mediaCaption}</strong>
+    </div>
+    <span class="artifact-card__accent-dot" aria-hidden="true"></span>
+  </div>
+
+  <div class="artifact-card__demo">
+    <span class="artifact-card__play" aria-hidden="true">▶</span>
+    <div>
+      <span>DEMO VIDEO SLOT</span>
+      <strong>{project.demoDuration} / {project.demoStatus}</strong>
+    </div>
+    <span aria-hidden="true">↗</span>
+  </div>
+</article>

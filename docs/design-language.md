@@ -128,6 +128,7 @@ Own wrappers and patterns for:
 
 - `ProjectCard`
 - `ProjectStatus`
+- `ArtifactPreview`
 - `ProductAccentMarker`
 - `ScreenshotFrame`
 - `TechnicalMetadata`
@@ -150,6 +151,21 @@ Each product theme may define:
 
 Each product theme must inherit the shared neutral foundation, typography, spacing,
 interaction, and accessibility rules.
+
+### Product proof layer
+
+Each featured project should have one tangible visual artifact near its summary:
+
+- A product screenshot or browser-frame image for the default state.
+- A short demo video for motion, interaction, or a workflow that a still image cannot
+  explain.
+- A quiet fallback frame when the product is private, unfinished, or not yet ready to
+  publish.
+
+Media supports the product story; it does not become a second visual language. Keep the
+frame, caption, status, duration, and action treatment shared. Use the product accent on
+the frame marker, progress signal, or play affordance only. Never let an unverified
+placeholder imply a shipped feature.
 
 ## Initial page recipes
 
