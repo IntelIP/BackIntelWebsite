@@ -655,6 +655,15 @@ blockquote {
   border-radius: 50%;
 }
 
+.artifact-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 720 / 430;
+  object-fit: cover;
+  background: #f4f4f4;
+}
+
 .artifact-ui {
   display: grid;
   grid-template-columns: 2.2rem 1fr;
