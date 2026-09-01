@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && node scripts/validate-built-site.mjs",
+    "build:validation": "node scripts/run-build-validation.mjs",
     "preview": "astro preview",
     "validate:profile": "node scripts/validate-design-profile.mjs"
   },
