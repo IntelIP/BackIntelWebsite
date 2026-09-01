@@ -2,76 +2,12 @@
 import Shell from "../layouts/Shell.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import ArtifactPreview from "../components/ArtifactPreview.astro";
+import { getCollection } from "astro:content";
 
-const projects = [
-  {
-    code: "N10",
-    name: "N10 IP",
-    href: "/projects/n10-ip",
-    kind: "Product platform",
-    status: "shaping",
-    mark: "N",
-    accent: "#2563EB",
-    summary: "A focused surface for turning complex IP context into clear next actions.",
-    tags: ["signal", "IP", "workflow"],
-    preview: "workspace",
-    previewPath: "n10.intelip / workspace",
-    previewTitle: "IP signal map",
-    previewBadge: "SHAPING",
-    previewBars: [28, 48, 38, 74, 56, 84],
-    previewRows: [{ label: "evidence", value: "12" }, { label: "open signals", value: "04" }],
-    image: "/media/n10-ip-signal-map.svg",
-    imageAlt: "Illustrative N10 IP signal map interface with evidence and open signal counts.",
-    mediaType: "UI concept",
-    mediaCaption: "A live surface for the work.",
-    demoDuration: "00:42",
-    demoStatus: "reserved",
-  },
-  {
-    code: "NRL",
-    name: "Neural",
-    kind: "Intelligence layer",
-    status: "concept",
-    mark: "∿",
-    accent: "#16A34A",
-    summary: "An adaptive intelligence surface for exploring signals, context, and decisions.",
-    tags: ["context", "models", "decisions"],
-    preview: "signals",
-    previewPath: "neural.intelip / signals",
-    previewTitle: "Signal field",
-    previewBadge: "CONCEPT",
-    previewBars: [62, 32, 76, 44, 88, 54],
-    previewRows: [{ label: "active threads", value: "08" }, { label: "confidence", value: "86%" }],
-    image: "/media/neural-signal-field.svg",
-    imageAlt: "Illustrative Neural signal field interface with active threads and confidence metrics.",
-    mediaType: "UI concept",
-    mediaCaption: "Context made visible.",
-    demoDuration: "01:08",
-    demoStatus: "reserved",
-  },
-  {
-    code: "TAB",
-    name: "Tabellio",
-    kind: "Evidence system",
-    status: "building",
-    mark: "T",
-    accent: "#A3A3A3",
-    summary: "A provenance-first system for making delivery evidence easier to inspect.",
-    tags: ["proof", "provenance", "delivery"],
-    preview: "ledger",
-    previewPath: "tabellio / candidate ledger",
-    previewTitle: "Candidate ledger",
-    previewBadge: "BUILDING",
-    previewBars: [42, 42, 52, 52, 68, 68],
-    previewRows: [{ label: "checks passed", value: "18" }, { label: "head bound", value: "YES" }],
-    image: "/media/tabellio-candidate-ledger.svg",
-    imageAlt: "Illustrative Tabellio candidate ledger interface with checks passed and head bound metrics.",
-    mediaType: "UI concept",
-    mediaCaption: "Proof behind the progress.",
-    demoDuration: "00:56",
-    demoStatus: "reserved",
-  },
-];
+const productEntries = await getCollection("products", ({ data }) => data.visibility === "public");
+const projects = productEntries
+  .filter(({ data }) => data.featured)
+  .map(({ id, data }) => ({ ...data, href: `/projects/${id}` }));
 
 const metrics = [
   { value: "03", label: "active product directions" },

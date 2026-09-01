@@ -1,0 +1,187 @@
+---
+import Shell from "../layouts/Shell.astro";
+import ArtifactPreview from "./ArtifactPreview.astro";
+
+const { product } = Astro.props;
+---
+
+<Shell
+  title={`${product.name} — IntelIP sample product page`}
+  description={product.summary}
+>
+  <div class="product-page" style={`--product-accent: ${product.accent}`}>
+    <header class="product-topbar">
+      <a class="product-topbar__brand" href="/" aria-label="Back to IntelIP portfolio">
+        <span class="product-topbar__mark">{product.mark}</span>
+        <span>INTELIP <small>/ PRODUCTS</small></span>
+      </a>
+      <span class="product-topbar__sample">PRODUCT SAMPLE / {product.code}</span>
+      <a class="product-topbar__back" href="/">Back to portfolio <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main>
+      <section class="product-hero" aria-labelledby="product-title">
+        <div class="container product-hero__inner">
+          <div class="product-hero__grid">
+            <div class="product-hero__copy">
+              <p class="eyebrow"><span class="eyebrow__line"></span>{product.code} / {product.kind}</p>
+              <p class="product-hero__kicker mono">{product.hero.kicker}</p>
+              <h1 id="product-title">{product.hero.title} <span>{product.hero.titleAccent}</span></h1>
+              <p class="product-hero__lead">{product.hero.lead}</p>
+              <div class="product-hero__actions">
+                <a class="product-button product-button--solid" href="#surface">See the signal map <span>↘</span></a>
+                <a class="product-button product-button--quiet" href="#capabilities">Explore the system</a>
+              </div>
+              <div class="product-hero__meta">
+                {product.meta.map((item) => <span><b>{item.label}</b> {item.value}</span>)}
+              </div>
+            </div>
+
+            <div class="product-hero__artifact" id="surface">
+              <ArtifactPreview project={product} index={1} />
+              <p class="product-hero__artifact-note mono">Illustrative interface frame / real product media replaces this asset.</p>
+            </div>
+          </div>
+
+          <div class="product-hero__rail">
+            <span class="mono">01 / PRODUCT SAMPLE</span>
+            <span>Context → clarity → action</span>
+            <span class="product-hero__rail-accent"><i></i> {product.name}</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="capabilities" class="product-section product-section--paper" aria-labelledby="capabilities-title">
+        <div class="container">
+          <div class="product-section__heading">
+            <div>
+              <p class="eyebrow"><span class="eyebrow__line"></span>01 / What it makes easier</p>
+              <h2 id="capabilities-title">A shorter path from context <span>to next move.</span></h2>
+            </div>
+            <p>The product page carries the same IntelIP grammar: a strong thesis, one tangible artifact, and enough context to understand why the surface exists.</p>
+          </div>
+
+          <div class="product-capability-grid">
+            {product.capabilities.map((capability) => (
+              <article class="product-capability-card">
+                <span class="product-capability-card__number mono">{capability.number}</span>
+                <h3>{capability.title}</h3>
+                <p>{capability.copy}</p>
+                <span class="product-capability-card__arrow" aria-hidden="true">↘</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="workflow" class="product-section product-section--dark" aria-labelledby="workflow-title">
+        <div class="container">
+          <div class="product-section__heading product-section__heading--inverse">
+            <div>
+              <p class="eyebrow"><span class="eyebrow__line"></span>02 / Working model</p>
+              <h2 id="workflow-title">Keep the interface quiet. <span>Keep the work moving.</span></h2>
+            </div>
+            <p>A project-level page should show how the product thinks, not only what it looks like. This is the story layer behind the artifact.</p>
+          </div>
+
+          <div class="product-flow">
+            {product.flow.map((step) => (
+              <article class="product-flow__step">
+                <span class="mono">{step.number}</span>
+                <h3>{step.label}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))}
+          </div>
+
+          <div class="product-quote">
+            <span class="mono">{product.code} / PRINCIPLE</span>
+            <blockquote>“{product.quote}”</blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="product-cta" aria-labelledby="cta-title">
+        <div class="container product-cta__inner">
+          <p class="eyebrow"><span class="eyebrow__line"></span>03 / Continue exploring</p>
+          <h2 id="cta-title">The artifact opens the door.<br /><span>The work earns the trust.</span></h2>
+          <div class="product-cta__actions">
+            <a class="product-button product-button--solid" href="/">Return to IntelIP <span>↗</span></a>
+            <a class="product-button product-button--outline" href="#surface">Back to the surface ↑</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="product-footer">
+      <div class="container product-footer__inner">
+        <span class="mono">{product.name} / SAMPLE PRODUCT PAGE</span>
+        <span class="mono">STATIC FIRST / ACCENT BY PRODUCT</span>
+        <a class="mono" href="/">IntelIP portfolio ↗</a>
+      </div>
+    </footer>
+  </div>
+</Shell>
+
+<style>
+  .product-page { --product-ink: #0a0a0a; --product-muted: #737373; --product-line: #e5e5e5; --product-soft: #f5f5f5; --product-dark-line: #292929; --product-dark-muted: #a3a3a3; min-height: 100vh; background: #fff; color: var(--product-ink); }
+  .product-topbar { position: sticky; z-index: 10; top: 0; display: grid; min-height: 4.5rem; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; padding: 0 2rem; border-bottom: 1px solid var(--product-line); background: rgb(255 255 255 / 92%); backdrop-filter: blur(16px); }
+  .product-topbar__brand, .product-topbar__back { display: inline-flex; align-items: center; gap: 0.7rem; width: fit-content; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .product-topbar__brand small { color: var(--product-muted); font-size: 0.56rem; font-weight: 400; }
+  .product-topbar__mark { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; border: 1px solid var(--product-accent); border-radius: 50%; color: var(--product-accent); }
+  .product-topbar__sample { color: var(--product-muted); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .product-topbar__back { justify-self: end; color: var(--product-muted); font-weight: 400; }
+  .product-topbar__back:hover, .product-footer__inner a:hover { color: var(--product-accent); }
+  .product-hero { min-height: calc(100vh - 4.5rem); background-color: #fff; background-image: linear-gradient(rgb(245 245 245 / 72%) 1px, transparent 1px), linear-gradient(90deg, rgb(245 245 245 / 72%) 1px, transparent 1px); background-size: 8rem 8rem; }
+  .product-hero__inner { display: flex; min-height: calc(100vh - 4.5rem); flex-direction: column; justify-content: center; padding-block: 6rem 2rem; }
+  .product-hero__grid { display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(26rem, 0.94fr); align-items: center; gap: clamp(3rem, 7vw, 8rem); }
+  .product-hero__copy { max-width: 42rem; }
+  .product-hero__kicker { margin-top: 2rem; color: var(--product-accent); font-size: 0.62rem; letter-spacing: 0.07em; }
+  .product-hero h1 { max-width: 44rem; margin-top: 1rem; font-size: clamp(4rem, 7.5vw, 8.5rem); font-weight: 500; letter-spacing: -0.095em; line-height: 0.86; }
+  .product-hero h1 span, .product-section__heading h2 span, .product-cta h2 span { color: var(--product-muted); }
+  .product-hero__lead { max-width: 32rem; margin-top: 2rem; color: #525252; font-size: 1.12rem; line-height: 1.55; }
+  .product-hero__actions, .product-cta__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; margin-top: 2rem; }
+  .product-button { display: inline-flex; align-items: center; gap: 0.8rem; min-height: 2.9rem; padding: 0.8rem 1rem; border: 1px solid transparent; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.04em; text-transform: uppercase; transition: background 180ms ease, border-color 180ms ease, color 180ms ease; }
+  .product-button--solid { background: var(--product-ink); color: #fff; }
+  .product-button--solid:hover { background: var(--product-accent); }
+  .product-button--quiet { border-color: var(--product-line); color: var(--product-muted); }
+  .product-button--quiet:hover, .product-button--outline:hover { border-color: var(--product-accent); color: var(--product-accent); }
+  .product-button--outline { border-color: var(--product-dark-line); color: #fff; }
+  .product-hero__meta { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--product-line); color: var(--product-muted); font-family: var(--font-mono); font-size: 0.59rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .product-hero__meta b { margin-right: 0.35rem; color: var(--product-ink); font-weight: 500; }
+  .product-hero__artifact { min-width: 0; }
+  .product-hero__artifact :global(.artifact-card) { box-shadow: 0 1.5rem 4rem rgb(10 10 10 / 13%); }
+  .product-hero__artifact-note { margin-top: 0.8rem; color: var(--product-muted); font-size: 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .product-hero__rail { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 5rem; padding-top: 1rem; border-top: 1px solid var(--product-line); color: var(--product-muted); font-family: var(--font-mono); font-size: 0.59rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .product-hero__rail span:nth-child(2) { text-align: center; }
+  .product-hero__rail-accent { display: inline-flex; align-items: center; justify-content: flex-end; gap: 0.4rem; color: var(--product-ink); }
+  .product-hero__rail-accent i { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--product-accent); }
+  .product-section { padding-block: clamp(5rem, 10vw, 9rem); }
+  .product-section--paper, .product-cta { background: #fff; }
+  .product-section--dark, .product-footer { background: var(--product-ink); color: #fff; }
+  .product-section__heading { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; margin-bottom: 4rem; }
+  .product-section__heading h2 { max-width: 52rem; margin-top: 1.5rem; font-size: clamp(3rem, 6vw, 6.8rem); font-weight: 500; letter-spacing: -0.09em; line-height: 0.87; }
+  .product-section__heading > p { max-width: 27rem; align-self: end; color: var(--product-muted); font-size: 0.98rem; line-height: 1.6; }
+  .product-section__heading--inverse .eyebrow, .product-section__heading--inverse > p { color: var(--product-dark-muted); }
+  .product-capability-grid, .product-flow { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .product-capability-card { position: relative; display: flex; min-height: 20rem; flex-direction: column; padding: 1.2rem; border-top: 1px solid var(--product-line); border-right: 1px solid var(--product-line); }
+  .product-capability-card:first-child { border-left: 1px solid var(--product-line); }
+  .product-capability-card__number, .product-flow__step > span { color: var(--product-accent); font-size: 0.65rem; }
+  .product-capability-card h3 { max-width: 12rem; margin-top: 5rem; font-size: clamp(1.8rem, 3vw, 3rem); font-weight: 500; letter-spacing: -0.075em; line-height: 0.9; }
+  .product-capability-card p, .product-flow__step p { max-width: 18rem; margin-top: 1rem; color: var(--product-muted); font-size: 0.9rem; line-height: 1.55; }
+  .product-capability-card__arrow { margin-top: auto; align-self: flex-end; color: var(--product-muted); font-size: 1.3rem; }
+  .product-flow { border-top: 1px solid var(--product-dark-line); }
+  .product-flow__step { min-height: 17rem; padding: 1rem 1.2rem 1.2rem; border-right: 1px solid var(--product-dark-line); }
+  .product-flow__step:first-child { border-left: 1px solid var(--product-dark-line); }
+  .product-flow__step h3 { margin-top: 5rem; font-size: clamp(2rem, 4vw, 4rem); font-weight: 500; letter-spacing: -0.08em; line-height: 0.88; }
+  .product-flow__step p { color: var(--product-dark-muted); }
+  .product-quote { margin-top: 5rem; padding-top: 1rem; border-top: 1px solid var(--product-dark-line); }
+  .product-quote > span { color: var(--product-dark-muted); font-size: 0.6rem; }
+  .product-quote blockquote { max-width: 55rem; margin-top: 2rem; color: #fff; font-size: clamp(2rem, 5vw, 5.5rem); font-weight: 500; letter-spacing: -0.09em; line-height: 0.9; }
+  .product-cta { padding-block: clamp(5rem, 10vw, 9rem); background: var(--product-soft); }
+  .product-cta h2 { margin-top: 2rem; font-size: clamp(3rem, 7vw, 8rem); font-weight: 500; letter-spacing: -0.1em; line-height: 0.85; }
+  .product-footer { padding-block: 1.4rem; }
+  .product-footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; color: var(--product-dark-muted); font-size: 0.58rem; letter-spacing: 0.05em; }
+  @media (max-width: 900px) { .product-hero__grid, .product-section__heading { grid-template-columns: 1fr; } .product-hero__grid { gap: 4rem; } .product-hero__artifact { max-width: 42rem; } }
+  @media (max-width: 680px) { .product-topbar { min-height: 4rem; grid-template-columns: 1fr auto; padding-inline: 1rem; } .product-topbar__sample { display: none; } .product-topbar__back { font-size: 0.55rem; } .product-hero__inner { padding-block: 4rem 1.5rem; } .product-hero h1 { font-size: clamp(3.6rem, 18vw, 6rem); } .product-hero__lead { font-size: 1rem; } .product-hero__meta { display: grid; gap: 0.7rem; margin-top: 3rem; } .product-hero__rail { grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 3.5rem; } .product-hero__rail span:nth-child(2) { display: none; } .product-hero__rail-accent { justify-content: flex-end; } .product-section__heading { gap: 2rem; margin-bottom: 3rem; } .product-section__heading h2 { font-size: clamp(2.9rem, 14vw, 5rem); } .product-capability-grid, .product-flow { grid-template-columns: 1fr; } .product-capability-card, .product-flow__step { min-height: 16rem; border-right: 0; border-left: 1px solid var(--product-line); border-bottom: 1px solid var(--product-line); } .product-capability-card h3, .product-flow__step h3 { margin-top: 3.5rem; } .product-flow__step { border-color: var(--product-dark-line); } .product-flow__step:first-child { border-left: 1px solid var(--product-dark-line); } .product-quote { margin-top: 4rem; } .product-quote blockquote { font-size: clamp(2.4rem, 12vw, 4rem); } .product-footer__inner { align-items: flex-start; flex-direction: column; } }
+</style>

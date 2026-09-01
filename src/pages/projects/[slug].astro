@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+import ProductPage from "../../components/ProductPage.astro";
+
+export async function getStaticPaths() {
+  const products = await getCollection("products", ({ data }) => data.visibility === "public");
+
+  return products.map((entry) => ({
+    params: { slug: entry.id },
+    props: { product: entry.data },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<ProductPage product={product} />
