@@ -25,6 +25,20 @@
   },
   "validators": [
     {
+      "id": "dependency-bootstrap",
+      "type": "static",
+      "argv": ["npm", "ci", "--ignore-scripts"],
+      "cwd": ".",
+      "timeoutMs": 120000,
+      "required": true,
+      "evidence": null,
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
       "id": "design-profile-schema",
       "type": "schema",
       "argv": ["npm", "run", "validate:profile"],
