@@ -2,6 +2,14 @@ node_modules/
 dist/
 .astro/
 artifacts/validation/
+artifacts/releases/
 .env
 .env.*
 !.env.example
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+crash.log
+crash.*.log

@@ -17,6 +17,21 @@ const imageUrl = image && siteOrigin ? absoluteUrl(image) : "";
 const serializedJsonLd = jsonLd.length
   ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
   : "";
+const openPanelClientId = (import.meta.env.PUBLIC_OPENPANEL_CLIENT_ID ?? "").trim();
+const openPanelApiUrl = (import.meta.env.PUBLIC_OPENPANEL_API_URL ?? "").trim();
+const openPanelScriptUrl = (
+  import.meta.env.PUBLIC_OPENPANEL_SCRIPT_URL ?? "https://openpanel.dev/op1.js"
+).trim();
+const openPanelEnabled =
+  import.meta.env.PUBLIC_ANALYTICS_PROVIDER === "openpanel" && Boolean(openPanelClientId);
+const openPanelConfig = JSON.stringify({
+  ...(openPanelApiUrl ? { apiUrl: openPanelApiUrl } : {}),
+  clientId: openPanelClientId,
+  trackScreenViews: true,
+  trackOutgoingLinks: true,
+  trackAttributes: true,
+}).replace(/</g, "\\u003c");
+const openPanelBootstrap = `window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();window.op('init',${openPanelConfig});`;
 ---
 
 <!doctype html>
@@ -41,6 +56,8 @@ const serializedJsonLd = jsonLd.length
     <meta name="twitter:description" content={description} />
     {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     {serializedJsonLd && <script type="application/ld+json" set:html={serializedJsonLd} />}
+    {openPanelEnabled && <script is:inline set:html={openPanelBootstrap} />}
+    {openPanelEnabled && <script is:inline async defer src={openPanelScriptUrl} />}
     <title>{title}</title>
   </head>
   <body id="top">

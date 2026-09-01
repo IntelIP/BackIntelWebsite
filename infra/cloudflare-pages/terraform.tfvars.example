@@ -1,0 +1,7 @@
+cloudflare_account_id = "replace-with-account-id"
+pages_project_name    = "intelip-portfolio"
+production_branch     = "main"
+custom_domain         = ""
+
+# Keep the token outside this file:
+# export TF_VAR_cloudflare_api_token="..."

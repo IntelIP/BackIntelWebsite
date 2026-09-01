@@ -5,7 +5,7 @@
   "failFast": true,
   "acceptance": {
     "id": "portfolio-site-local-specimen",
-    "source": "docs/design-language.md and the approved localhost specimen brief",
+    "source": "docs/design-language.md, docs/rapid-launch.md, and the approved localhost specimen brief",
     "risk": "medium",
     "outcomes": [
       "Astro renders a substantial monochrome portfolio and design-system specimen.",
@@ -15,10 +15,12 @@
     "invariants": [
       "The prototype remains static and performs no Neon or production writes.",
       "The base palette remains black, white, and gray.",
-      "Product accents do not become generic semantic status colors."
+      "Product accents do not become generic semantic status colors.",
+      "Cloudflare, domain, and analytics actions remain opt-in and credential-gated."
     ],
     "forbiddenOutcomes": [
       "SSR, database access, external deployment, or secret use is introduced by the prototype.",
+      "A validation command performs a Cloudflare, domain, analytics, or billing write.",
       "Visual readiness is reported without rendered review."
     ],
     "requiredValidatorTypes": ["static", "schema"]
@@ -46,6 +48,20 @@
       "timeoutMs": 120000,
       "required": true,
       "evidence": { "path": "artifacts/validation/astro-build.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
+      "id": "launch-kit-static",
+      "type": "static",
+      "argv": ["npm", "run", "validate:launch-kit"],
+      "cwd": ".",
+      "timeoutMs": 30000,
+      "required": true,
+      "evidence": { "path": "artifacts/validation/launch-kit.json" },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,

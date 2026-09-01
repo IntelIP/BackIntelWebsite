@@ -7,6 +7,12 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/validate-built-site.mjs",
     "build:validation": "node scripts/run-build-validation.mjs",
+    "package": "node scripts/package-site.mjs",
+    "deploy:cloudflare": "node scripts/deploy-cloudflare.mjs",
+    "new:product": "node scripts/new-product.mjs",
+    "domain:search": "node scripts/domains.mjs search",
+    "domain:check": "node scripts/domains.mjs check",
+    "validate:launch-kit": "node scripts/validate-launch-kit.mjs",
     "preview": "astro preview",
     "validate:profile": "node scripts/validate-design-profile.mjs"
   },
