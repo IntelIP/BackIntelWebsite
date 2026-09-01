@@ -48,17 +48,22 @@ record(
   (terraformResult.stdout || terraformResult.stderr || "terraform fmt check").trim(),
 );
 
-const status = checks.every((check) => check.status === "passed") ? "passed" : "failed";
+const validationStatus = checks.every((check) => check.status === "passed") ? "passed" : "failed";
 const gitResult = spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" });
 const evidence = {
-  schemaVersion: "portfolio-launch-kit-validation/v1",
-  status,
-  commit: gitResult.status === 0 ? gitResult.stdout.trim() : null,
-  externalActions: { cloudflare: false, registrar: false, analytics: false, network: false },
-  checks,
+  schemaVersion: "tabellio-validator-evidence/v0.1",
+  validatorId: "launch-kit-static",
+  status: validationStatus,
+  summary: `${validationStatus === "passed" ? "Launch kit" : "Launch kit validation"} ${validationStatus} at candidate ${gitResult.status === 0 ? gitResult.stdout.trim() : "uncommitted"}. Checks: ${checks.map((check) => `${check.id}=${check.status}`).join(", ")}. No external actions performed.`,
+  metrics: [
+    { name: "checks_passed", value: checks.filter((check) => check.status === "passed").length, unit: "checks" },
+    { name: "checks_total", value: checks.length, unit: "checks" },
+  ],
+  cost: { telemetry: "not_applicable", usd: null, modelCalls: null, toolCalls: null },
+  artifacts: [],
 };
 
 mkdirSync(evidenceDir, { recursive: true });
 writeFileSync(join(evidenceDir, "launch-kit.json"), `${JSON.stringify(evidence, null, 2)}\n`);
 console.log(JSON.stringify(evidence, null, 2));
-process.exit(status === "passed" ? 0 : 1);
+process.exit(validationStatus === "passed" ? 0 : 1);
