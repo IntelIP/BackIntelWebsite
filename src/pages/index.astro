@@ -3,11 +3,34 @@ import Shell from "../layouts/Shell.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import ArtifactPreview from "../components/ArtifactPreview.astro";
 import { getCollection } from "astro:content";
+import { absoluteUrl, siteDescription, siteName, siteOrigin } from "../config/site";
 
 const productEntries = await getCollection("products", ({ data }) => data.visibility === "public");
 const projects = productEntries
   .filter(({ data }) => data.featured)
-  .map(({ id, data }) => ({ ...data, href: `/projects/${id}` }));
+  .map(({ id, data }) => ({ ...data, href: `/projects/${id}/` }));
+
+const jsonLd = siteOrigin
+  ? [
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": `${absoluteUrl("/")}#organization`,
+        name: siteName,
+        url: absoluteUrl("/"),
+        description: siteDescription,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": `${absoluteUrl("/")}#website`,
+        name: siteName,
+        url: absoluteUrl("/"),
+        description: siteDescription,
+        publisher: { "@id": `${absoluteUrl("/")}#organization` },
+      },
+    ]
+  : [];
 
 const metrics = [
   { value: "03", label: "active product directions" },
@@ -34,7 +57,11 @@ const method = [
 ];
 ---
 
-<Shell>
+<Shell
+  title="IntelIP — Product systems with a signal"
+  description={siteDescription}
+  jsonLd={jsonLd}
+>
   <div class="site-shell">
     <header class="topbar">
       <a class="topbar__wordmark" href="/" aria-label="IntelIP home">

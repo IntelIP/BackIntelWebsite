@@ -1,19 +1,46 @@
 ---
 import "../styles/global.css";
+import { absoluteUrl, siteName, siteOrigin } from "../config/site";
 
 const {
   title = "IntelIP — Product systems with a signal",
-  description = "A monochrome portfolio system for IntelIP products, experiments, and evidence.",
+  description = "A shared home for focused products, useful experiments, and the evidence behind how they are built.",
+  image,
+  imageAlt,
+  type = "website",
+  noindex = false,
+  jsonLd = [],
 } = Astro.props;
+
+const canonicalUrl = siteOrigin ? absoluteUrl(Astro.url.pathname) : "";
+const imageUrl = image && siteOrigin ? absoluteUrl(image) : "";
+const serializedJsonLd = jsonLd.length
+  ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
+  : "";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
     <meta name="theme-color" content="#0A0A0A" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    {imageUrl && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+    {serializedJsonLd && <script type="application/ld+json" set:html={serializedJsonLd} />}
     <title>{title}</title>
   </head>
   <body id="top">

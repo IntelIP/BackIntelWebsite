@@ -6,6 +6,8 @@ status: shaping
 mark: N
 accent: "#2563EB"
 summary: A focused surface for turning complex IP context into clear next actions.
+seoTitle: N10 IP | IP context into next actions | IntelIP
+seoDescription: N10 IP is a focused product surface for turning dense intellectual property context into clear next actions.
 tags: [signal, IP, workflow]
 preview: workspace
 previewPath: n10.intelip / workspace

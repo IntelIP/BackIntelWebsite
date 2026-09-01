@@ -14,4 +14,4 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 ---
 
-<ProductPage product={product} />
+<ProductPage product={product} slug={Astro.params.slug} />

@@ -6,6 +6,8 @@ status: concept
 mark: ∿
 accent: "#16A34A"
 summary: An adaptive intelligence surface for exploring signals, context, and decisions.
+seoTitle: Neural | Signal context for better decisions | IntelIP
+seoDescription: Neural is an adaptive intelligence surface for exploring signals, context, and decisions without losing the thread.
 tags: [context, models, decisions]
 preview: signals
 previewPath: neural.intelip / signals

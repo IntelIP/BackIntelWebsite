@@ -6,6 +6,8 @@ status: building
 mark: T
 accent: "#A3A3A3"
 summary: A provenance-first system for making delivery evidence easier to inspect.
+seoTitle: Tabellio | Provenance-first delivery evidence | IntelIP
+seoDescription: Tabellio is a provenance-first system for connecting work, evidence, and exact delivery state.
 tags: [proof, provenance, delivery]
 preview: ledger
 previewPath: tabellio / candidate ledger

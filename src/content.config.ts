@@ -11,6 +11,8 @@ const product = defineCollection({
     mark: z.string().min(1),
     accent: z.string().regex(/^#[0-9a-f]{6}$/i),
     summary: z.string().min(1),
+    seoTitle: z.string().min(1).optional(),
+    seoDescription: z.string().min(1).optional(),
     tags: z.array(z.string()).min(1),
     preview: z.enum(["workspace", "signals", "ledger"]),
     previewPath: z.string().min(1),
