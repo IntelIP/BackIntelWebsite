@@ -1,13 +1,46 @@
 ---
 import Shell from "../layouts/Shell.astro";
 import ArtifactPreview from "./ArtifactPreview.astro";
+import { absoluteUrl, siteOrigin, siteName } from "../config/site";
 
-const { product } = Astro.props;
+const { product, slug } = Astro.props;
+const seoTitle = product.seoTitle ?? `${product.name} — IntelIP sample product page`;
+const seoDescription = product.seoDescription ?? product.summary;
+const productUrl = siteOrigin ? absoluteUrl(`/projects/${slug}/`) : "";
+const jsonLd = productUrl
+  ? [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": `${productUrl}#webpage`,
+        url: productUrl,
+        name: seoTitle,
+        description: seoDescription,
+        isPartOf: {
+          "@type": "WebSite",
+          name: siteName,
+          url: absoluteUrl("/"),
+        },
+        about: { "@type": "Thing", name: product.name },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: siteName, item: absoluteUrl("/") },
+          { "@type": "ListItem", position: 2, name: product.name, item: productUrl },
+        ],
+      },
+    ]
+  : [];
 ---
 
 <Shell
-  title={`${product.name} — IntelIP sample product page`}
-  description={product.summary}
+  title={seoTitle}
+  description={seoDescription}
+  image={product.image}
+  imageAlt={product.imageAlt}
+  jsonLd={jsonLd}
 >
   <div class="product-page" style={`--product-accent: ${product.accent}`}>
     <header class="product-topbar">
