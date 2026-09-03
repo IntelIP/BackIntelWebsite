@@ -36,6 +36,15 @@ jobs:
       - name: Validate design profile
         run: npm run validate:profile
 
+      - name: Validate product kit contract
+        run: npm run test:product-kit
+
+      - name: Validate analytics provider contract
+        run: npm run test:analytics
+
+      - name: Typecheck Astro project
+        run: npm run typecheck
+
       - name: Validate launch kit
         run: npm run validate:launch-kit
 

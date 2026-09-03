@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import { absoluteUrl, siteName, siteOrigin } from "../config/site";
+import { readAnalyticsConfig } from "../analytics/config.ts";
+import { getBrowserAnalyticsRuntime } from "../analytics/browser.ts";
 
 const {
   title = "IntelIP — Product systems with a signal",
@@ -10,6 +12,9 @@ const {
   type = "website",
   noindex = false,
   jsonLd = [],
+  analyticsProject = siteName,
+  analyticsEnvironment = import.meta.env.PUBLIC_ANALYTICS_ENVIRONMENT ??
+    (import.meta.env.DEV ? "development" : "production"),
 } = Astro.props;
 
 const canonicalUrl = siteOrigin ? absoluteUrl(Astro.url.pathname) : "";
@@ -17,21 +22,12 @@ const imageUrl = image && siteOrigin ? absoluteUrl(image) : "";
 const serializedJsonLd = jsonLd.length
   ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
   : "";
-const openPanelClientId = (import.meta.env.PUBLIC_OPENPANEL_CLIENT_ID ?? "").trim();
-const openPanelApiUrl = (import.meta.env.PUBLIC_OPENPANEL_API_URL ?? "").trim();
-const openPanelScriptUrl = (
-  import.meta.env.PUBLIC_OPENPANEL_SCRIPT_URL ?? "https://openpanel.dev/op1.js"
-).trim();
-const openPanelEnabled =
-  import.meta.env.PUBLIC_ANALYTICS_PROVIDER === "openpanel" && Boolean(openPanelClientId);
-const openPanelConfig = JSON.stringify({
-  ...(openPanelApiUrl ? { apiUrl: openPanelApiUrl } : {}),
-  clientId: openPanelClientId,
-  trackScreenViews: true,
-  trackOutgoingLinks: true,
-  trackAttributes: true,
-}).replace(/</g, "\\u003c");
-const openPanelBootstrap = `window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();window.op('init',${openPanelConfig});`;
+const analyticsConfig = readAnalyticsConfig(import.meta.env, {
+  project: analyticsProject,
+  environment: analyticsEnvironment,
+  route: Astro.url.pathname,
+});
+const analyticsRuntime = getBrowserAnalyticsRuntime(analyticsConfig);
 ---
 
 <!doctype html>
@@ -43,6 +39,7 @@ const openPanelBootstrap = `window.op=window.op||function(){var n=[];return new 
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
     <meta name="theme-color" content="#0A0A0A" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site index" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <meta property="og:site_name" content={siteName} />
     <meta property="og:type" content={type} />
@@ -56,11 +53,24 @@ const openPanelBootstrap = `window.op=window.op||function(){var n=[];return new 
     <meta name="twitter:description" content={description} />
     {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     {serializedJsonLd && <script type="application/ld+json" set:html={serializedJsonLd} />}
-    {openPanelEnabled && <script is:inline set:html={openPanelBootstrap} />}
-    {openPanelEnabled && <script is:inline async defer src={openPanelScriptUrl} />}
+    {analyticsRuntime.enabled && (
+      <meta
+        name="intelip-analytics-config"
+        content={JSON.stringify(analyticsConfig)}
+      />
+    )}
+    {analyticsRuntime.bootstrap && (
+      <script is:inline set:html={analyticsRuntime.bootstrap} />
+    )}
+    {analyticsRuntime.scriptUrl && (
+      <script is:inline async defer src={analyticsRuntime.scriptUrl} />
+    )}
     <title>{title}</title>
   </head>
   <body id="top">
     <slot />
+    {analyticsRuntime.enabled && (
+      <script src="../analytics/client-entry.ts"></script>
+    )}
   </body>
 </html>

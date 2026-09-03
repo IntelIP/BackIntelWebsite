@@ -3,34 +3,15 @@ import Shell from "../layouts/Shell.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import ArtifactPreview from "../components/ArtifactPreview.astro";
 import { getCollection } from "astro:content";
-import { absoluteUrl, siteDescription, siteName, siteOrigin } from "../config/site";
+import { absoluteUrl, siteDescription, siteName } from "../config/site";
+import { buildSiteJsonLd } from "../config/seo.mjs";
 
 const productEntries = await getCollection("products", ({ data }) => data.visibility === "public");
 const projects = productEntries
   .filter(({ data }) => data.featured)
   .map(({ id, data }) => ({ ...data, href: `/projects/${id}/` }));
 
-const jsonLd = siteOrigin
-  ? [
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "@id": `${absoluteUrl("/")}#organization`,
-        name: siteName,
-        url: absoluteUrl("/"),
-        description: siteDescription,
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "@id": `${absoluteUrl("/")}#website`,
-        name: siteName,
-        url: absoluteUrl("/"),
-        description: siteDescription,
-        publisher: { "@id": `${absoluteUrl("/")}#organization` },
-      },
-    ]
-  : [];
+const jsonLd = buildSiteJsonLd({ name: siteName, description: siteDescription, url: absoluteUrl("/") });
 
 const metrics = [
   { value: "03", label: "active product directions" },
@@ -61,6 +42,7 @@ const method = [
   title="IntelIP — Product systems with a signal"
   description={siteDescription}
   jsonLd={jsonLd}
+  analyticsProject={siteName}
 >
   <div class="site-shell">
     <header class="topbar">

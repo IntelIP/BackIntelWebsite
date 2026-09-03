@@ -11,12 +11,14 @@ if (typeof process.loadEnvFile === "function") {
 const accountId = process.env.CLOUDFLARE_ACCOUNT_ID?.trim();
 const apiToken = process.env.CLOUDFLARE_API_TOKEN?.trim();
 const projectName = process.env.CLOUDFLARE_PAGES_PROJECT?.trim();
+const useWranglerAuth =
+  process.env.CLOUDFLARE_USE_WRANGLER_AUTH?.trim().toLowerCase() === "true";
 const confirmation = process.env.CLOUDFLARE_DEPLOY_CONFIRM?.trim();
 const branch = process.env.CLOUDFLARE_PAGES_BRANCH?.trim();
 
-if (!accountId || !apiToken || !projectName) {
+if (!accountId || !projectName || (!apiToken && !useWranglerAuth)) {
   console.error(
-    "Deploy blocked: set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, and CLOUDFLARE_PAGES_PROJECT in the ignored .env file or environment.",
+    "Deploy blocked: set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_PAGES_PROJECT, and either CLOUDFLARE_API_TOKEN or CLOUDFLARE_USE_WRANGLER_AUTH=true in the ignored .env file or environment.",
   );
   process.exit(1);
 }
@@ -56,9 +58,12 @@ if (commitHash) args.push("--commit-hash", commitHash);
 if (branch) args.push("--branch", branch);
 
 console.log(`Publishing dist/ to Cloudflare Pages project ${projectName}.`);
+const deployEnvironment = { ...process.env, CLOUDFLARE_ACCOUNT_ID: accountId };
+if (apiToken) deployEnvironment.CLOUDFLARE_API_TOKEN = apiToken;
+else delete deployEnvironment.CLOUDFLARE_API_TOKEN;
 const deployResult = spawnSync("npx", args, {
   cwd: process.cwd(),
-  env: { ...process.env, CLOUDFLARE_ACCOUNT_ID: accountId, CLOUDFLARE_API_TOKEN: apiToken },
+  env: deployEnvironment,
   stdio: "inherit",
 });
 

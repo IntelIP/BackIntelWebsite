@@ -13,7 +13,7 @@ npm run package
 CLOUDFLARE_DEPLOY_CONFIRM=DEPLOY npm run deploy:cloudflare
 ```
 
-The deploy command still requires `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_PAGES_PROJECT`. It uses `dist/` and never passes the token as a command-line argument.
+The deploy command requires `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_PAGES_PROJECT`, and explicit `CLOUDFLARE_DEPLOY_CONFIRM=DEPLOY`. Authentication may use `CLOUDFLARE_API_TOKEN` from an approved secret store, or `CLOUDFLARE_USE_WRANGLER_AUTH=true` to reuse an authenticated local Wrangler OAuth session. It uses `dist/` and never passes a token as a command-line argument.
 
 ## First setup, when approved
 
@@ -22,5 +22,7 @@ The deploy command still requires `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN
 3. Run `terraform init` and `terraform plan` in this directory.
 4. Review the plan. Run `terraform apply` only after approving the Cloudflare account-side changes.
 5. Set `CLOUDFLARE_PAGES_PROJECT` to the resulting project name and use the guarded direct-upload command.
+
+For local operator deployment, authenticate Wrangler with `wrangler login`, set `CLOUDFLARE_USE_WRANGLER_AUTH=true`, and keep `CLOUDFLARE_API_TOKEN` unset. The CLI cache remains the canonical local credential store.
 
 `cloudflare_pages_domain` associates a hostname with Pages. Apex-domain activation still requires the domain's DNS/nameserver process to be completed in Cloudflare. Domain registration is intentionally outside Terraform and outside this repository's default commands.

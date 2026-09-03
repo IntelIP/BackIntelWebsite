@@ -7,7 +7,7 @@ The site now ships a crawlable static baseline:
 - Public product pages are linked from the home page and listed in `/sitemap.xml`.
 - `/robots.txt` explicitly allows Google's normal wildcard crawl, OpenAI's `OAI-SearchBot` and `ChatGPT-User`, and Exa's `ExaSearchBot`.
 - `/llms.txt` is a generated, compact index for services that choose to consume that convention.
-- JSON-LD describes the public organization/site and product-page relationships when the public origin is configured.
+- JSON-LD describes the public organization/site and product-page relationships on every rendered page; `PUBLIC_SITE_URL` makes the URLs absolute for publication.
 
 ## Before production launch
 

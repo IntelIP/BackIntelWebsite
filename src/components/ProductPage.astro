@@ -1,38 +1,22 @@
 ---
 import Shell from "../layouts/Shell.astro";
 import ArtifactPreview from "./ArtifactPreview.astro";
-import { absoluteUrl, siteOrigin, siteName } from "../config/site";
+import LiveMockup from "./LiveMockup.astro";
+import { absoluteUrl, siteName } from "../config/site";
+import { buildProductJsonLd } from "../config/seo.mjs";
 
-const { product, slug } = Astro.props;
+const { product, slug, Content } = Astro.props;
 const seoTitle = product.seoTitle ?? `${product.name} — IntelIP sample product page`;
-const seoDescription = product.seoDescription ?? product.summary;
-const productUrl = siteOrigin ? absoluteUrl(`/projects/${slug}/`) : "";
-const jsonLd = productUrl
-  ? [
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "@id": `${productUrl}#webpage`,
-        url: productUrl,
-        name: seoTitle,
-        description: seoDescription,
-        isPartOf: {
-          "@type": "WebSite",
-          name: siteName,
-          url: absoluteUrl("/"),
-        },
-        about: { "@type": "Thing", name: product.name },
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: siteName, item: absoluteUrl("/") },
-          { "@type": "ListItem", position: 2, name: product.name, item: productUrl },
-        ],
-      },
-    ]
-  : [];
+const seoDescription = product.seoDescription ?? product.description;
+const productUrl = absoluteUrl(`/projects/${slug}/`);
+const jsonLd = buildProductJsonLd({
+  siteName,
+  siteUrl: absoluteUrl("/"),
+  productUrl,
+  product,
+  title: seoTitle,
+  description: seoDescription,
+});
 ---
 
 <Shell
@@ -41,6 +25,7 @@ const jsonLd = productUrl
   image={product.image}
   imageAlt={product.imageAlt}
   jsonLd={jsonLd}
+  analyticsProject={product.name}
 >
   <div class="product-page" style={`--product-accent: ${product.accent}`}>
     <header class="product-topbar">
@@ -48,6 +33,11 @@ const jsonLd = productUrl
         <span class="product-topbar__mark">{product.mark}</span>
         <span>INTELIP <small>/ PRODUCTS</small></span>
       </a>
+      <nav class="product-topbar__nav" aria-label="Product sections">
+        <a href="#context">Context</a>
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+      </nav>
       <span class="product-topbar__sample">PRODUCT SAMPLE / {product.code}</span>
       <a class="product-topbar__back" href="/">Back to portfolio <span aria-hidden="true">↗</span></a>
     </header>
@@ -60,14 +50,22 @@ const jsonLd = productUrl
               <p class="eyebrow"><span class="eyebrow__line"></span>{product.code} / {product.kind}</p>
               <p class="product-hero__kicker mono">{product.hero.kicker}</p>
               <h1 id="product-title">{product.hero.title} <span>{product.hero.titleAccent}</span></h1>
-              <p class="product-hero__lead">{product.hero.lead}</p>
+              <p class="product-hero__lead">{product.description}</p>
               <div class="product-hero__actions">
-                <a class="product-button product-button--solid" href="#surface">See the signal map <span>↘</span></a>
-                <a class="product-button product-button--quiet" href="#capabilities">Explore the system</a>
+                <a class="product-button product-button--solid" href={product.cta.href}>{product.cta.label} <span>↗</span></a>
+                <a class="product-button product-button--quiet" href={product.liveMockup ? "#live-demo" : "#features"}>
+                  {product.liveMockup ? "Try live demo" : "Explore the system"}
+                </a>
               </div>
+              <p class="product-hero__cta-note">{product.cta.title}</p>
               <div class="product-hero__meta">
                 {product.meta.map((item) => <span><b>{item.label}</b> {item.value}</span>)}
               </div>
+              <dl id="context" class="product-hero__context" aria-label="Product context">
+                <div><dt>Audience</dt><dd>{product.audience}</dd></div>
+                <div><dt>Problem</dt><dd>{product.problem}</dd></div>
+                <div><dt>Solution</dt><dd>{product.solution}</dd></div>
+              </dl>
             </div>
 
             <div class="product-hero__artifact" id="surface">
@@ -84,22 +82,30 @@ const jsonLd = productUrl
         </div>
       </section>
 
-      <section id="capabilities" class="product-section product-section--paper" aria-labelledby="capabilities-title">
+      {product.liveMockup && (
+        <section id="live-demo" class="product-section product-section--dark product-live-section" aria-labelledby={`${slug}-live-demo-title`}>
+          <div class="container">
+            <LiveMockup demo={product.liveMockup} productName={product.name} accent={product.accent} instanceKey={`${slug}-live-demo`} />
+          </div>
+        </section>
+      )}
+
+      <section id="features" class="product-section product-section--paper" aria-labelledby="features-title">
         <div class="container">
           <div class="product-section__heading">
             <div>
               <p class="eyebrow"><span class="eyebrow__line"></span>01 / What it makes easier</p>
-              <h2 id="capabilities-title">A shorter path from context <span>to next move.</span></h2>
+              <h2 id="features-title">A shorter path from context <span>to next move.</span></h2>
             </div>
             <p>The product page carries the same IntelIP grammar: a strong thesis, one tangible artifact, and enough context to understand why the surface exists.</p>
           </div>
 
           <div class="product-capability-grid">
-            {product.capabilities.map((capability) => (
+            {product.features.map((feature) => (
               <article class="product-capability-card">
-                <span class="product-capability-card__number mono">{capability.number}</span>
-                <h3>{capability.title}</h3>
-                <p>{capability.copy}</p>
+                <span class="product-capability-card__number mono">{feature.number}</span>
+                <h3>{feature.title}</h3>
+                <p>{feature.copy}</p>
                 <span class="product-capability-card__arrow" aria-hidden="true">↘</span>
               </article>
             ))}
@@ -127,6 +133,16 @@ const jsonLd = productUrl
             ))}
           </div>
 
+          <div class="product-proof-grid" aria-label="Proof points">
+            {product.proofPoints.map((point) => (
+              <article class="product-proof-card">
+                <span class="mono">{point.label}</span>
+                <strong>{point.value}</strong>
+                <p>{point.copy}</p>
+              </article>
+            ))}
+          </div>
+
           <div class="product-quote">
             <span class="mono">{product.code} / PRINCIPLE</span>
             <blockquote>“{product.quote}”</blockquote>
@@ -134,12 +150,21 @@ const jsonLd = productUrl
         </div>
       </section>
 
-      <section class="product-cta" aria-labelledby="cta-title">
+      {Content && (
+        <section id="narrative" class="product-section product-section--paper product-narrative" aria-label="Product narrative">
+          <div class="container product-narrative__inner">
+            <p class="eyebrow"><span class="eyebrow__line"></span>03 / Product narrative</p>
+            <article class="product-narrative__body"><Content /></article>
+          </div>
+        </section>
+      )}
+
+      <section id="next" class="product-cta" aria-labelledby="cta-title">
         <div class="container product-cta__inner">
-          <p class="eyebrow"><span class="eyebrow__line"></span>03 / Continue exploring</p>
-          <h2 id="cta-title">The artifact opens the door.<br /><span>The work earns the trust.</span></h2>
+          <p class="eyebrow"><span class="eyebrow__line"></span>04 / Next move</p>
+          <h2 id="cta-title">{product.cta.title}<br /><span>{product.cta.titleAccent}</span></h2>
           <div class="product-cta__actions">
-            <a class="product-button product-button--solid" href="/">Return to IntelIP <span>↗</span></a>
+            <a class="product-button product-button--solid" href={product.cta.href}>{product.cta.label} <span>↗</span></a>
             <a class="product-button product-button--outline" href="#surface">Back to the surface ↑</a>
           </div>
         </div>
@@ -158,10 +183,13 @@ const jsonLd = productUrl
 
 <style>
   .product-page { --product-ink: #0a0a0a; --product-muted: #737373; --product-line: #e5e5e5; --product-soft: #f5f5f5; --product-dark-line: #292929; --product-dark-muted: #a3a3a3; min-height: 100vh; background: #fff; color: var(--product-ink); }
-  .product-topbar { position: sticky; z-index: 10; top: 0; display: grid; min-height: 4.5rem; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; padding: 0 2rem; border-bottom: 1px solid var(--product-line); background: rgb(255 255 255 / 92%); backdrop-filter: blur(16px); }
+  .product-topbar { position: sticky; z-index: 10; top: 0; display: grid; min-height: 4.5rem; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 1.2rem; padding: 0 2rem; border-bottom: 1px solid var(--product-line); background: rgb(255 255 255 / 92%); backdrop-filter: blur(16px); }
   .product-topbar__brand, .product-topbar__back { display: inline-flex; align-items: center; gap: 0.7rem; width: fit-content; font-family: var(--font-mono); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
   .product-topbar__brand small { color: var(--product-muted); font-size: 0.56rem; font-weight: 400; }
   .product-topbar__mark { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; border: 1px solid var(--product-accent); border-radius: 50%; color: var(--product-accent); }
+  .product-topbar__nav { display: flex; align-items: center; justify-content: center; gap: 1rem; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .product-topbar__nav a { color: var(--product-muted); }
+  .product-topbar__nav a:hover, .product-topbar__nav a:focus-visible { color: var(--product-accent); }
   .product-topbar__sample { color: var(--product-muted); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.06em; text-transform: uppercase; }
   .product-topbar__back { justify-self: end; color: var(--product-muted); font-weight: 400; }
   .product-topbar__back:hover, .product-footer__inner a:hover { color: var(--product-accent); }
@@ -180,8 +208,13 @@ const jsonLd = productUrl
   .product-button--quiet { border-color: var(--product-line); color: var(--product-muted); }
   .product-button--quiet:hover, .product-button--outline:hover { border-color: var(--product-accent); color: var(--product-accent); }
   .product-button--outline { border-color: var(--product-dark-line); color: #fff; }
+  .product-hero__cta-note { max-width: 24rem; margin-top: 0.8rem; color: var(--product-muted); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.04em; text-transform: uppercase; }
   .product-hero__meta { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--product-line); color: var(--product-muted); font-family: var(--font-mono); font-size: 0.59rem; letter-spacing: 0.04em; text-transform: uppercase; }
   .product-hero__meta b { margin-right: 0.35rem; color: var(--product-ink); font-weight: 500; }
+  .product-hero__context { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--product-line); }
+  .product-hero__context div { min-width: 0; }
+  .product-hero__context dt { color: var(--product-accent); font-family: var(--font-mono); font-size: 0.54rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .product-hero__context dd { margin-top: 0.6rem; color: #525252; font-size: 0.78rem; line-height: 1.45; }
   .product-hero__artifact { min-width: 0; }
   .product-hero__artifact :global(.artifact-card) { box-shadow: 0 1.5rem 4rem rgb(10 10 10 / 13%); }
   .product-hero__artifact-note { margin-top: 0.8rem; color: var(--product-muted); font-size: 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -196,7 +229,7 @@ const jsonLd = productUrl
   .product-section__heading h2 { max-width: 52rem; margin-top: 1.5rem; font-size: clamp(3rem, 6vw, 6.8rem); font-weight: 500; letter-spacing: -0.09em; line-height: 0.87; }
   .product-section__heading > p { max-width: 27rem; align-self: end; color: var(--product-muted); font-size: 0.98rem; line-height: 1.6; }
   .product-section__heading--inverse .eyebrow, .product-section__heading--inverse > p { color: var(--product-dark-muted); }
-  .product-capability-grid, .product-flow { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .product-capability-grid, .product-flow, .product-proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
   .product-capability-card { position: relative; display: flex; min-height: 20rem; flex-direction: column; padding: 1.2rem; border-top: 1px solid var(--product-line); border-right: 1px solid var(--product-line); }
   .product-capability-card:first-child { border-left: 1px solid var(--product-line); }
   .product-capability-card__number, .product-flow__step > span { color: var(--product-accent); font-size: 0.65rem; }
@@ -208,13 +241,27 @@ const jsonLd = productUrl
   .product-flow__step:first-child { border-left: 1px solid var(--product-dark-line); }
   .product-flow__step h3 { margin-top: 5rem; font-size: clamp(2rem, 4vw, 4rem); font-weight: 500; letter-spacing: -0.08em; line-height: 0.88; }
   .product-flow__step p { color: var(--product-dark-muted); }
+  .product-proof-grid { margin-top: 4rem; border-top: 1px solid var(--product-dark-line); }
+  .product-proof-card { display: flex; min-height: 12rem; flex-direction: column; gap: 0.7rem; padding: 1rem 1.2rem 1.2rem; border-right: 1px solid var(--product-dark-line); }
+  .product-proof-card:first-child { border-left: 1px solid var(--product-dark-line); }
+  .product-proof-card > span { color: var(--product-dark-muted); font-size: 0.58rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .product-proof-card strong { margin-top: 2rem; color: #fff; font-size: clamp(1.4rem, 2.5vw, 2.4rem); font-weight: 500; letter-spacing: -0.06em; }
+  .product-proof-card p { max-width: 18rem; margin-top: auto; color: var(--product-dark-muted); font-size: 0.78rem; line-height: 1.5; }
   .product-quote { margin-top: 5rem; padding-top: 1rem; border-top: 1px solid var(--product-dark-line); }
   .product-quote > span { color: var(--product-dark-muted); font-size: 0.6rem; }
   .product-quote blockquote { max-width: 55rem; margin-top: 2rem; color: #fff; font-size: clamp(2rem, 5vw, 5.5rem); font-weight: 500; letter-spacing: -0.09em; line-height: 0.9; }
+  .product-narrative { background: var(--product-soft); }
+  .product-narrative__inner { display: grid; grid-template-columns: minmax(12rem, 0.35fr) minmax(0, 0.65fr); gap: 3rem; }
+  .product-narrative__body { max-width: 46rem; }
+  .product-narrative__body :global(h2) { margin-bottom: 1.5rem; font-size: clamp(2rem, 4vw, 4rem); font-weight: 500; letter-spacing: -0.08em; line-height: 0.9; }
+  .product-narrative__body :global(h3) { margin-top: 2rem; font-size: 1.35rem; font-weight: 500; letter-spacing: -0.04em; }
+  .product-narrative__body :global(p), .product-narrative__body :global(ul) { max-width: 40rem; color: #525252; font-size: 1rem; line-height: 1.65; }
+  .product-narrative__body :global(ul) { padding-left: 1.2rem; }
+  .product-narrative__body :global(a) { color: var(--product-ink); text-decoration: underline; text-decoration-color: var(--product-accent); text-underline-offset: 0.2em; }
   .product-cta { padding-block: clamp(5rem, 10vw, 9rem); background: var(--product-soft); }
   .product-cta h2 { margin-top: 2rem; font-size: clamp(3rem, 7vw, 8rem); font-weight: 500; letter-spacing: -0.1em; line-height: 0.85; }
   .product-footer { padding-block: 1.4rem; }
   .product-footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; color: var(--product-dark-muted); font-size: 0.58rem; letter-spacing: 0.05em; }
   @media (max-width: 900px) { .product-hero__grid, .product-section__heading { grid-template-columns: 1fr; } .product-hero__grid { gap: 4rem; } .product-hero__artifact { max-width: 42rem; } }
-  @media (max-width: 680px) { .product-topbar { min-height: 4rem; grid-template-columns: 1fr auto; padding-inline: 1rem; } .product-topbar__sample { display: none; } .product-topbar__back { font-size: 0.55rem; } .product-hero__inner { padding-block: 4rem 1.5rem; } .product-hero h1 { font-size: clamp(3.6rem, 18vw, 6rem); } .product-hero__lead { font-size: 1rem; } .product-hero__meta { display: grid; gap: 0.7rem; margin-top: 3rem; } .product-hero__rail { grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 3.5rem; } .product-hero__rail span:nth-child(2) { display: none; } .product-hero__rail-accent { justify-content: flex-end; } .product-section__heading { gap: 2rem; margin-bottom: 3rem; } .product-section__heading h2 { font-size: clamp(2.9rem, 14vw, 5rem); } .product-capability-grid, .product-flow { grid-template-columns: 1fr; } .product-capability-card, .product-flow__step { min-height: 16rem; border-right: 0; border-left: 1px solid var(--product-line); border-bottom: 1px solid var(--product-line); } .product-capability-card h3, .product-flow__step h3 { margin-top: 3.5rem; } .product-flow__step { border-color: var(--product-dark-line); } .product-flow__step:first-child { border-left: 1px solid var(--product-dark-line); } .product-quote { margin-top: 4rem; } .product-quote blockquote { font-size: clamp(2.4rem, 12vw, 4rem); } .product-footer__inner { align-items: flex-start; flex-direction: column; } }
+  @media (max-width: 680px) { .product-topbar { min-height: 4rem; grid-template-columns: 1fr auto; padding-inline: 1rem; } .product-topbar__nav, .product-topbar__sample { display: none; } .product-topbar__back { font-size: 0.55rem; } .product-hero__inner { padding-block: 4rem 1.5rem; } .product-hero h1 { font-size: clamp(3.6rem, 18vw, 6rem); } .product-hero__lead { font-size: 1rem; } .product-hero__meta { display: grid; gap: 0.7rem; margin-top: 3rem; } .product-hero__context { grid-template-columns: 1fr; gap: 1.2rem; } .product-hero__rail { grid-template-columns: 1fr 1fr; gap: 0.7rem; margin-top: 3.5rem; } .product-hero__rail span:nth-child(2) { display: none; } .product-hero__rail-accent { justify-content: flex-end; } .product-section__heading { gap: 2rem; margin-bottom: 3rem; } .product-section__heading h2 { font-size: clamp(2.9rem, 14vw, 5rem); } .product-capability-grid, .product-flow, .product-proof-grid, .product-narrative__inner { grid-template-columns: 1fr; } .product-capability-card, .product-flow__step, .product-proof-card { min-height: 16rem; border-right: 0; border-left: 1px solid var(--product-line); border-bottom: 1px solid var(--product-line); } .product-proof-card { border-color: var(--product-dark-line); } .product-capability-card h3, .product-flow__step h3 { margin-top: 3.5rem; } .product-flow__step { border-color: var(--product-dark-line); } .product-flow__step:first-child, .product-proof-card:first-child { border-left: 1px solid var(--product-dark-line); } .product-quote { margin-top: 4rem; } .product-quote blockquote { font-size: clamp(2.4rem, 12vw, 4rem); } .product-footer__inner { align-items: flex-start; flex-direction: column; } }
 </style>

@@ -13,6 +13,10 @@
     "domain:search": "node scripts/domains.mjs search",
     "domain:check": "node scripts/domains.mjs check",
     "validate:launch-kit": "node scripts/validate-launch-kit.mjs",
+    "test:product-kit": "node scripts/test-product-kit.mjs",
+    "test:live-mockup": "node scripts/test-live-mockup.mjs",
+    "test:analytics": "node --experimental-strip-types scripts/test-analytics.ts",
+    "typecheck": "node scripts/run-typecheck.mjs",
     "preview": "astro preview",
     "validate:profile": "node scripts/validate-design-profile.mjs"
   },
@@ -20,5 +24,10 @@
     "@fontsource-variable/inter": "5.3.0",
     "@fontsource-variable/jetbrains-mono": "5.3.0",
     "astro": "7.2.10"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^26.4.0",
+    "typescript": "^6.0.3"
   }
 }

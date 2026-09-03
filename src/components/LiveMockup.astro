@@ -1,0 +1,491 @@
+---
+import { INITIAL_RECORDS } from "./live-mockup/demo-state.mjs";
+
+const { demo = {}, productName = "Product", accent = "#737373", instanceKey } = Astro.props;
+const config = {
+  appName: demo.appName ?? productName,
+  title: demo.title ?? `${productName} demo`,
+  eyebrow: demo.eyebrow ?? "INTERACTIVE DEMO / LOCAL DATA",
+  description: demo.description ?? "Explore a small, self-contained product workflow.",
+  records: demo.records?.length ? demo.records : INITIAL_RECORDS,
+};
+const instanceId = instanceKey ?? `live-mockup-${String(productName).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+---
+
+<div
+  class="live-mockup"
+  data-live-mockup
+  data-preview-size="desktop"
+  data-demo={JSON.stringify(config)}
+  style={`--live-accent: ${accent}`}
+>
+  <div class="live-mockup__intro">
+    <div>
+      <p class="eyebrow"><span class="eyebrow__line"></span>{config.eyebrow}</p>
+      <h2 id={`${instanceId}-title`}>{config.title} <span>in the browser.</span></h2>
+    </div>
+    <div class="live-mockup__intro-aside">
+      <p>{config.description}</p>
+      <span class="live-mockup__badge"><i></i> Interactive demo</span>
+    </div>
+  </div>
+
+  <div class="live-mockup__frame">
+    <div class="live-mockup__toolbar">
+      <div>
+        <span class="mono">LIVE MOCKUP</span>
+        <span class="live-mockup__toolbar-note">Local state / no backend</span>
+      </div>
+      <div class="live-mockup__viewport-controls" role="group" aria-label="Preview size">
+        <button type="button" data-preview="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" data-preview="mobile" aria-pressed="false">Mobile</button>
+        <button type="button" data-action="reset" class="live-mockup__reset">Reset demo</button>
+      </div>
+    </div>
+
+    <div class="live-mockup__viewport" data-live-mockup-viewport data-preview-size="desktop">
+      <div class="demo-app" data-demo-app>
+        <header class="demo-app__bar">
+          <div class="demo-app__brand">
+            <span class="demo-app__brand-mark" aria-hidden="true">{config.appName.slice(0, 1)}</span>
+            <strong>{config.appName}</strong>
+          </div>
+          <div class="demo-app__bar-meta mono">
+            <span>LOCAL ONLY</span>
+            <span data-record-count>{config.records.length} records</span>
+          </div>
+        </header>
+
+        <div class="demo-app__body">
+          <aside class="demo-app__sidebar" aria-label="Demo navigation">
+            <span class="demo-app__sidebar-label mono">Workspace</span>
+            <button type="button" class="demo-nav demo-nav--active" aria-current="page">
+              <span><i aria-hidden="true"></i> Work queue</span><span class="mono">01</span>
+            </button>
+            <button type="button" class="demo-nav"><span><i aria-hidden="true"></i> Signals</span><span class="mono">03</span></button>
+            <button type="button" class="demo-nav"><span><i aria-hidden="true"></i> Archive</span><span class="mono">08</span></button>
+            <div class="demo-app__sidebar-footer"><i aria-hidden="true"></i><span>All data stays here</span></div>
+          </aside>
+
+          <section class="demo-app__main" aria-labelledby={`${instanceId}-app-title`}>
+            <div class="demo-app__heading">
+              <div>
+                <span class="demo-app__kicker mono">QUEUE / 001</span>
+                <h3 id={`${instanceId}-app-title`}>Work queue</h3>
+                <p>Move the work forward, one clear signal at a time.</p>
+              </div>
+              <button type="button" class="demo-action" data-action="add"><span aria-hidden="true">+</span> Add record</button>
+            </div>
+
+            <div class="demo-app__stats" aria-label="Queue summary">
+              <div><span class="mono">TOTAL</span><strong data-stat="total">0</strong></div>
+              <div><span class="mono">ACTIVE</span><strong data-stat="active">0</strong></div>
+              <div><span class="mono">QUEUED</span><strong data-stat="queued">0</strong></div>
+              <div><span class="mono">CLOSED</span><strong data-stat="closed">0</strong></div>
+            </div>
+
+            <div class="demo-app__filters">
+              <label class="demo-field demo-field--search">
+                <span class="sr-only">Search records</span>
+                <span class="demo-field__icon" aria-hidden="true">⌕</span>
+                <input type="search" data-search placeholder="Search records" autocomplete="off" />
+              </label>
+              <label class="demo-field">
+                <span class="sr-only">Filter by status</span>
+                <select data-filter>
+                  <option value="all">All statuses</option>
+                  <option value="active">Active</option>
+                  <option value="queued">Queued</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="demo-app__list-header mono"><span>RECORD</span><span data-visible-count>0 shown</span></div>
+            <div class="demo-records" data-records role="list" aria-label="Demo records"></div>
+            <p class="demo-empty" data-empty hidden>No records match this view. Try another filter.</p>
+            <p class="demo-live-status" data-live-status aria-live="polite"></p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="live-mockup__note mono">Try the workflow. Every change is local to this demo and disappears when you reset it.</p>
+
+  <dialog class="demo-dialog" data-record-dialog aria-labelledby={`${instanceId}-dialog-title`}>
+    <form method="dialog" data-record-form>
+      <div class="demo-dialog__header">
+        <div>
+          <span class="mono">LOCAL RECORD</span>
+          <h3 id={`${instanceId}-dialog-title`} data-dialog-title>New record</h3>
+        </div>
+        <button type="button" class="demo-dialog__close" data-action="cancel" aria-label="Close record form">×</button>
+      </div>
+      <input type="hidden" name="id" />
+      <label class="demo-dialog__field">
+        <span>Title</span>
+        <input name="title" required maxlength="80" placeholder="What needs attention?" />
+      </label>
+      <div class="demo-dialog__grid">
+        <label class="demo-dialog__field">
+          <span>Type</span>
+          <input name="type" maxlength="32" placeholder="Evidence" />
+        </label>
+        <label class="demo-dialog__field">
+          <span>Owner</span>
+          <input name="owner" maxlength="32" placeholder="Unassigned" />
+        </label>
+      </div>
+      <label class="demo-dialog__field">
+        <span>Status</span>
+        <select name="status">
+          <option value="queued">Queued</option>
+          <option value="active">Active</option>
+          <option value="closed">Closed</option>
+        </select>
+      </label>
+      <div class="demo-dialog__actions">
+        <button type="button" class="demo-dialog__cancel" data-action="cancel">Cancel</button>
+        <button type="submit" class="demo-action"><span aria-hidden="true">↗</span> <span data-submit-label>Create record</span></button>
+      </div>
+    </form>
+  </dialog>
+
+  <noscript><p class="live-mockup__noscript">Enable JavaScript to use this interactive demo. The surrounding product page remains fully readable without it.</p></noscript>
+</div>
+
+<script>
+  import {
+    createDemoState,
+    createRecord,
+    deleteRecord,
+    EDITABLE_STATUSES,
+    resetDemo,
+    setFilter,
+    setQuery,
+    STATUS_LABELS,
+    summarize,
+    updateRecord,
+    updateStatus,
+    visibleRecords,
+  } from "./live-mockup/demo-state.mjs";
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-live-mockup]")) {
+    const config = JSON.parse(root.dataset.demo ?? "{}");
+    const records = root.querySelector<HTMLElement>("[data-records]");
+    const empty = root.querySelector<HTMLElement>("[data-empty]");
+    const search = root.querySelector<HTMLInputElement>("[data-search]");
+    const filter = root.querySelector<HTMLSelectElement>("[data-filter]");
+    const dialog = root.querySelector<HTMLDialogElement>("[data-record-dialog]");
+    const form = root.querySelector<HTMLFormElement>("[data-record-form]");
+    const viewport = root.querySelector<HTMLElement>("[data-live-mockup-viewport]");
+    const statusMessage = root.querySelector<HTMLElement>("[data-live-status]");
+    let state = createDemoState(config.records);
+
+    const field = (name) => form.querySelector<HTMLInputElement | HTMLSelectElement>(`[name="${name}"]`);
+    const announce = (message) => {
+      statusMessage.textContent = message;
+    };
+
+    const addText = (parent, className, value) => {
+      const element = document.createElement("span");
+      element.className = className;
+      element.textContent = value;
+      parent.append(element);
+      return element;
+    };
+
+    const renderRecord = (record) => {
+      const article = document.createElement("article");
+      article.className = "demo-record";
+      article.dataset.recordId = record.id;
+      article.setAttribute("role", "listitem");
+
+      const top = document.createElement("div");
+      top.className = "demo-record__top";
+      addText(top, "demo-record__type mono", record.type);
+      const status = document.createElement("span");
+      status.className = `demo-status demo-status--${record.status}`;
+      const dot = document.createElement("i");
+      dot.setAttribute("aria-hidden", "true");
+      status.append(dot, document.createTextNode(STATUS_LABELS[record.status] ?? record.status));
+      top.append(status);
+      article.append(top);
+
+      const title = document.createElement("h4");
+      title.textContent = record.title;
+      article.append(title);
+
+      const metadata = document.createElement("div");
+      metadata.className = "demo-record__meta";
+      addText(metadata, "", `Owner / ${record.owner}`);
+      addText(metadata, "", `Updated / ${record.updated}`);
+      article.append(metadata);
+
+      const actions = document.createElement("div");
+      actions.className = "demo-record__actions";
+      const statusLabel = document.createElement("label");
+      statusLabel.className = "sr-only";
+      statusLabel.htmlFor = `${record.id}-status`;
+      statusLabel.textContent = `Change status for ${record.title}`;
+      const statusSelect = document.createElement("select");
+      statusSelect.id = `${record.id}-status`;
+      statusSelect.dataset.recordStatus = record.id;
+      statusSelect.setAttribute("aria-label", `Change status for ${record.title}`);
+      for (const optionStatus of EDITABLE_STATUSES) {
+        const option = document.createElement("option");
+        option.value = optionStatus;
+        option.textContent = STATUS_LABELS[optionStatus];
+        option.selected = optionStatus === record.status;
+        statusSelect.append(option);
+      }
+      actions.append(statusLabel, statusSelect);
+
+      for (const [action, label] of [["edit", "Edit"], ["delete", "Delete"]]) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.recordAction = action;
+        button.dataset.recordId = record.id;
+        button.textContent = label;
+        button.setAttribute("aria-label", `${label} ${record.title}`);
+        actions.append(button);
+      }
+      article.append(actions);
+      return article;
+    };
+
+    const render = () => {
+      const visible = visibleRecords(state);
+      const summary = summarize(state);
+      records.replaceChildren(...visible.map(renderRecord));
+      empty.hidden = visible.length > 0;
+      root.querySelector<HTMLElement>("[data-visible-count]").textContent = `${visible.length} shown`;
+      root.querySelector<HTMLElement>("[data-record-count]").textContent = `${summary.total} records`;
+      for (const key of ["total", "active", "queued", "closed"]) {
+        root.querySelector<HTMLElement>(`[data-stat="${key}"]`).textContent = summary[key];
+      }
+      search.value = state.query;
+      filter.value = state.filter;
+      root.dataset.ready = "true";
+    };
+
+    const closeDialog = () => {
+      if (typeof dialog.close === "function" && dialog.open) dialog.close();
+      else dialog.removeAttribute("open");
+    };
+
+    const openDialog = (record = null) => {
+      root.querySelector<HTMLElement>("[data-dialog-title]").textContent = record ? "Edit record" : "New record";
+      root.querySelector<HTMLElement>("[data-submit-label]").textContent = record ? "Save changes" : "Create record";
+      field("id").value = record?.id ?? "";
+      field("title").value = record?.title ?? "";
+      field("type").value = record?.type ?? "Signal";
+      field("owner").value = record?.owner ?? "Unassigned";
+      field("status").value = record?.status ?? "queued";
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
+      field("title").focus();
+    };
+
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeDialog();
+      }
+    });
+
+    root.querySelector('[data-action="add"]').addEventListener("click", () => openDialog());
+    root.querySelectorAll('[data-action="cancel"]').forEach((button) => button.addEventListener("click", closeDialog));
+    root.querySelector('[data-action="reset"]').addEventListener("click", () => {
+      state = resetDemo(config.records);
+      viewport.dataset.previewSize = "desktop";
+      root.dataset.previewSize = "desktop";
+      root.querySelectorAll<HTMLButtonElement>("[data-preview]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.preview === "desktop"));
+      });
+      closeDialog();
+      render();
+      announce("Demo reset to its initial local state.");
+    });
+
+    root.querySelectorAll<HTMLButtonElement>("[data-preview]").forEach((button) => {
+      button.addEventListener("click", () => {
+        viewport.dataset.previewSize = button.dataset.preview;
+        root.dataset.previewSize = button.dataset.preview;
+        root.querySelectorAll<HTMLButtonElement>("[data-preview]").forEach((control) => {
+          control.setAttribute("aria-pressed", String(control === button));
+        });
+        announce(`${button.textContent} preview selected.`);
+      });
+    });
+
+    search.addEventListener("input", () => {
+      state = setQuery(state, search.value);
+      render();
+    });
+    filter.addEventListener("change", () => {
+      state = setFilter(state, filter.value);
+      render();
+      announce(`${filter.options[filter.selectedIndex].textContent} records shown.`);
+    });
+
+    records.addEventListener("click", (event) => {
+      const button = event.target instanceof Element
+        ? event.target.closest("button[data-record-action]") as HTMLButtonElement | null
+        : null;
+      if (!button) return;
+      const record = state.records.find((item) => item.id === button.dataset.recordId);
+      if (!record) return;
+      if (button.dataset.recordAction === "edit") {
+        openDialog(record);
+      } else {
+        state = deleteRecord(state, record.id);
+        render();
+        announce(`${record.title} deleted from this local demo.`);
+      }
+    });
+
+    records.addEventListener("change", (event) => {
+      const select = event.target instanceof HTMLSelectElement ? event.target : null;
+      if (!select?.dataset.recordStatus) return;
+      const record = state.records.find((item) => item.id === select.dataset.recordStatus);
+      state = updateStatus(state, select.dataset.recordStatus, select.value);
+      render();
+      if (record) announce(`${record.title} moved to ${STATUS_LABELS[select.value]}.`);
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = {
+        title: field("title").value,
+        type: field("type").value,
+        owner: field("owner").value,
+        status: field("status").value,
+      };
+      if (!input.title.trim()) {
+        announce("Add a title before saving the record.");
+        field("title").focus();
+        return;
+      }
+      const id = field("id").value;
+      state = id ? updateRecord(state, id, input) : createRecord(state, input);
+      closeDialog();
+      render();
+      announce(id ? `${input.title} updated in this local demo.` : `${input.title} added to this local demo.`);
+    });
+
+    render();
+  }
+</script>
+
+<style>
+  .live-mockup { --live-ink: #0a0a0a; --live-paper: #f5f5f5; --live-line: #d9d9d9; --live-muted: #737373; color: #fff; }
+  .live-mockup__intro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.65fr); gap: 3rem; align-items: end; }
+  .live-mockup__intro h2 { max-width: 50rem; margin-top: 1.5rem; font-size: clamp(3rem, 6vw, 6.8rem); font-weight: 500; letter-spacing: -0.09em; line-height: 0.87; }
+  .live-mockup__intro h2 span { color: var(--product-dark-muted, #a3a3a3); }
+  .live-mockup__intro-aside { display: grid; gap: 1.3rem; align-content: end; padding-bottom: 0.35rem; }
+  .live-mockup__intro-aside p { max-width: 25rem; color: var(--product-dark-muted, #a3a3a3); font-size: 0.95rem; line-height: 1.6; }
+  .live-mockup__badge { display: inline-flex; align-items: center; gap: 0.45rem; width: fit-content; color: #fff; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  .live-mockup__badge i { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--live-accent); box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--live-accent) 15%, transparent); }
+  .live-mockup__frame { margin-top: 3.5rem; overflow: hidden; border: 1px solid #2b2b2b; border-radius: 0.3rem; background: #111; box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 22%); }
+  .live-mockup__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 0.9rem; border-bottom: 1px solid #2b2b2b; color: #fff; }
+  .live-mockup__toolbar > div:first-child, .live-mockup__viewport-controls { display: flex; align-items: center; gap: 0.75rem; }
+  .live-mockup__toolbar .mono { color: var(--live-accent); font-size: 0.58rem; letter-spacing: 0.07em; }
+  .live-mockup__toolbar-note { color: #737373; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .live-mockup__viewport-controls button { min-height: 1.9rem; padding: 0.4rem 0.6rem; border: 1px solid #343434; background: transparent; color: #929292; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .live-mockup__viewport-controls button:hover, .live-mockup__viewport-controls button:focus-visible { border-color: var(--live-accent); color: #fff; }
+  .live-mockup__viewport-controls button[aria-pressed="true"] { border-color: var(--live-accent); background: color-mix(in srgb, var(--live-accent) 14%, #111); color: #fff; }
+  .live-mockup__viewport-controls .live-mockup__reset { margin-left: 0.3rem; border-color: #555; color: #fff; }
+  .live-mockup__viewport { overflow-x: auto; padding: clamp(1.5rem, 4vw, 3rem); background: radial-gradient(circle at 50% 0%, #242424, #111 58%); }
+  .demo-app { width: min(100%, 72rem); min-height: 35rem; margin: 0 auto; overflow: hidden; border: 1px solid #d2d2d2; border-radius: 0.35rem; background: var(--live-paper); color: var(--live-ink); box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 28%); transition: max-width 220ms ease; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app { max-width: 24rem; }
+  .demo-app__bar { display: flex; min-height: 3.5rem; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.8rem 1.15rem; border-bottom: 1px solid var(--live-line); background: #fff; }
+  .demo-app__brand, .demo-app__bar-meta { display: flex; align-items: center; gap: 0.6rem; }
+  .demo-app__brand { font-size: 0.84rem; letter-spacing: -0.03em; }
+  .demo-app__brand-mark { display: grid; width: 1.5rem; height: 1.5rem; place-items: center; border: 1px solid var(--live-accent); border-radius: 50%; color: var(--live-accent); font-family: var(--font-mono); font-size: 0.58rem; }
+  .demo-app__bar-meta { color: var(--live-muted); font-size: 0.52rem; letter-spacing: 0.06em; }
+  .demo-app__bar-meta span + span { padding-left: 0.7rem; border-left: 1px solid var(--live-line); }
+  .demo-app__body { display: grid; grid-template-columns: 11.5rem minmax(0, 1fr); min-height: 31.5rem; }
+  .demo-app__sidebar { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.2rem 0.75rem; border-right: 1px solid var(--live-line); background: #ededed; }
+  .demo-app__sidebar-label { margin: 0 0 0.65rem 0.55rem; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.07em; text-transform: uppercase; }
+  .demo-nav { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%; padding: 0.7rem 0.6rem; border: 0; background: transparent; color: #737373; font-size: 0.72rem; text-align: left; }
+  .demo-nav span:first-child { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .demo-nav i { width: 0.35rem; height: 0.35rem; border: 1px solid #aaa; border-radius: 50%; }
+  .demo-nav .mono { color: #a0a0a0; font-size: 0.52rem; }
+  .demo-nav:hover, .demo-nav:focus-visible, .demo-nav--active { background: #fff; color: var(--live-ink); }
+  .demo-nav--active i { border-color: var(--live-accent); background: var(--live-accent); }
+  .demo-app__sidebar-footer { display: flex; align-items: center; gap: 0.45rem; margin-top: auto; padding: 0.75rem 0.55rem 0.15rem; border-top: 1px solid #d7d7d7; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.49rem; line-height: 1.35; }
+  .demo-app__sidebar-footer i { width: 0.38rem; height: 0.38rem; border-radius: 50%; background: var(--live-accent); }
+  .demo-app__main { min-width: 0; padding: clamp(1.3rem, 3vw, 2.2rem); }
+  .demo-app__heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.25rem; }
+  .demo-app__kicker { color: var(--live-accent); font-size: 0.54rem; letter-spacing: 0.07em; }
+  .demo-app__heading h3 { margin-top: 0.4rem; font-size: clamp(1.7rem, 3vw, 2.5rem); font-weight: 500; letter-spacing: -0.07em; line-height: 0.9; }
+  .demo-app__heading p { margin-top: 0.6rem; color: var(--live-muted); font-size: 0.72rem; line-height: 1.4; }
+  .demo-action { display: inline-flex; min-height: 2.2rem; align-items: center; gap: 0.45rem; padding: 0.55rem 0.7rem; border: 1px solid var(--live-ink); background: var(--live-ink); color: #fff; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .demo-action:hover, .demo-action:focus-visible { border-color: var(--live-accent); background: var(--live-accent); }
+  .demo-action > span:first-child { color: var(--live-accent); font-size: 1rem; line-height: 0.5; }
+  .demo-app__stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2rem; border-top: 1px solid var(--live-line); border-bottom: 1px solid var(--live-line); }
+  .demo-app__stats > div { display: grid; gap: 0.45rem; min-width: 0; padding: 0.75rem 0.7rem; }
+  .demo-app__stats > div + div { border-left: 1px solid var(--live-line); }
+  .demo-app__stats .mono { color: var(--live-muted); font-size: 0.48rem; letter-spacing: 0.06em; }
+  .demo-app__stats strong { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.05em; }
+  .demo-app__filters { display: grid; grid-template-columns: minmax(0, 1fr) 10rem; gap: 0.6rem; margin-top: 1.5rem; }
+  .demo-field { position: relative; display: block; }
+  .demo-field input, .demo-field select, .demo-dialog__field input, .demo-dialog__field select { width: 100%; min-height: 2.35rem; padding: 0.6rem 0.7rem; border: 1px solid var(--live-line); border-radius: 0; background: #fff; color: var(--live-ink); font: inherit; font-size: 0.7rem; }
+  .demo-field input:focus, .demo-field select:focus, .demo-dialog__field input:focus, .demo-dialog__field select:focus { border-color: var(--live-accent); outline: 2px solid color-mix(in srgb, var(--live-accent) 28%, transparent); outline-offset: 1px; }
+  .demo-field--search input { padding-left: 2rem; }
+  .demo-field__icon { position: absolute; z-index: 1; top: 0.48rem; left: 0.7rem; color: var(--live-muted); font-size: 1rem; }
+  .demo-app__list-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; padding-bottom: 0.55rem; border-bottom: 1px solid var(--live-line); color: var(--live-muted); font-size: 0.49rem; letter-spacing: 0.06em; }
+  .demo-records { display: grid; gap: 0.55rem; padding-top: 0.55rem; }
+  :global(.demo-record) { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(9rem, 0.8fr) auto; grid-template-areas: "top top actions" "title meta actions"; align-items: center; gap: 0.35rem 1rem; padding: 0.75rem; border: 1px solid transparent; background: #fff; }
+  :global(.demo-record:hover) { border-color: var(--live-line); }
+  :global(.demo-record__top) { display: flex; align-items: center; gap: 0.6rem; grid-area: top; }
+  :global(.demo-record__type) { color: var(--live-accent); font-size: 0.49rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  :global(.demo-status) { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.48rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  :global(.demo-status i) { width: 0.38rem; height: 0.38rem; border-radius: 50%; background: var(--live-muted); }
+  :global(.demo-status--active i) { background: var(--live-accent); }
+  :global(.demo-status--closed i) { background: #bcbcbc; }
+  :global(.demo-record h4) { grid-area: title; min-width: 0; overflow: hidden; font-size: 0.82rem; font-weight: 500; letter-spacing: -0.03em; text-overflow: ellipsis; white-space: nowrap; }
+  :global(.demo-record__meta) { display: flex; flex-wrap: wrap; gap: 0.7rem; grid-area: meta; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.49rem; }
+  :global(.demo-record__actions) { display: flex; align-items: center; justify-content: flex-end; gap: 0.35rem; grid-area: actions; }
+  :global(.demo-record__actions select), :global(.demo-record__actions button) { min-height: 1.75rem; padding: 0.4rem 0.5rem; border: 1px solid var(--live-line); background: #fff; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.49rem; letter-spacing: 0.03em; text-transform: uppercase; }
+  :global(.demo-record__actions button:hover), :global(.demo-record__actions button:focus-visible) { border-color: var(--live-accent); color: var(--live-accent); }
+  .demo-empty { padding: 1.5rem 0; color: var(--live-muted); font-size: 0.75rem; }
+  .demo-live-status { min-height: 1.2rem; margin-top: 0.6rem; color: var(--live-accent); font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.03em; }
+  .live-mockup__note { margin-top: 0.8rem; color: var(--product-dark-muted, #a3a3a3); font-size: 0.53rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .live-mockup__noscript { margin-top: 1rem; padding: 0.8rem; border: 1px solid #343434; color: #c0c0c0; font-size: 0.75rem; }
+  .demo-dialog { width: min(32rem, calc(100% - 2rem)); padding: 0; border: 1px solid #555; border-radius: 0.25rem; background: #fff; color: var(--live-ink); box-shadow: 0 2rem 5rem rgb(0 0 0 / 35%); }
+  .demo-dialog::backdrop { background: rgb(0 0 0 / 65%); backdrop-filter: blur(4px); }
+  .demo-dialog form { display: grid; gap: 1rem; padding: 1.3rem; }
+  .demo-dialog__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--live-line); }
+  .demo-dialog__header .mono { color: var(--live-accent); font-size: 0.53rem; letter-spacing: 0.06em; }
+  .demo-dialog__header h3 { margin-top: 0.5rem; font-size: 1.7rem; font-weight: 500; letter-spacing: -0.07em; }
+  .demo-dialog__close { border: 0; background: transparent; color: var(--live-muted); font-size: 1.4rem; line-height: 1; }
+  .demo-dialog__close:hover, .demo-dialog__close:focus-visible { color: var(--live-accent); }
+  .demo-dialog__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  .demo-dialog__field { display: grid; gap: 0.35rem; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.53rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .demo-dialog__actions { display: flex; justify-content: flex-end; gap: 0.55rem; padding-top: 0.5rem; }
+  .demo-dialog__cancel { min-height: 2.2rem; padding: 0.55rem 0.7rem; border: 1px solid var(--live-line); background: #fff; color: var(--live-muted); font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .demo-dialog__cancel:hover, .demo-dialog__cancel:focus-visible { border-color: var(--live-accent); color: var(--live-accent); }
+  :global(.sr-only) { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__body { grid-template-columns: 1fr; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__sidebar { display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; gap: 0.35rem; border-right: 0; border-bottom: 1px solid var(--live-line); }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__sidebar-label, .live-mockup__viewport[data-preview-size="mobile"] .demo-app__sidebar-footer { display: none; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-nav { padding: 0.55rem; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-nav .mono { display: none; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app { min-height: 40rem; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__main { padding: 1rem; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__heading { align-items: stretch; flex-direction: column; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-action { justify-content: center; }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__stats { grid-template-columns: repeat(2, 1fr); }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__stats > div:nth-child(3) { border-left: 0; border-top: 1px solid var(--live-line); }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__stats > div:nth-child(4) { border-top: 1px solid var(--live-line); }
+  .live-mockup__viewport[data-preview-size="mobile"] .demo-app__filters { grid-template-columns: 1fr; }
+  .live-mockup__viewport[data-preview-size="mobile"] :global(.demo-record) { grid-template-columns: 1fr auto; grid-template-areas: "top top" "title title" "meta meta" "actions actions"; }
+  .live-mockup__viewport[data-preview-size="mobile"] :global(.demo-record__actions) { justify-content: flex-start; margin-top: 0.35rem; }
+  .live-mockup[data-preview-size="mobile"] .demo-dialog__grid { grid-template-columns: 1fr; }
+  @media (max-width: 760px) { .live-mockup__intro { grid-template-columns: 1fr; gap: 2rem; } .live-mockup__intro-aside { padding-bottom: 0; } .live-mockup__toolbar { align-items: flex-start; flex-direction: column; } .live-mockup__viewport-controls { flex-wrap: wrap; } .demo-app__body { grid-template-columns: 1fr; } .demo-app__sidebar { display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; gap: 0.35rem; border-right: 0; border-bottom: 1px solid var(--live-line); } .demo-app__sidebar-label, .demo-app__sidebar-footer { display: none; } .demo-nav { padding: 0.55rem; } .demo-nav .mono { display: none; } }
+  @media (max-width: 540px) { .live-mockup__intro h2 { font-size: clamp(2.8rem, 13vw, 4.5rem); } .live-mockup__frame { margin-top: 2.5rem; } .live-mockup__viewport { padding: 0.7rem; } .demo-app { min-height: 40rem; } .demo-app__bar { padding-inline: 0.8rem; } .demo-app__bar-meta span:first-child { display: none; } .demo-app__main { padding: 1rem; } .demo-app__heading { align-items: stretch; flex-direction: column; } .demo-action { justify-content: center; } .demo-app__stats { grid-template-columns: repeat(2, 1fr); } .demo-app__stats > div:nth-child(3) { border-left: 0; border-top: 1px solid var(--live-line); } .demo-app__stats > div:nth-child(4) { border-top: 1px solid var(--live-line); } .demo-app__filters { grid-template-columns: 1fr; } :global(.demo-record) { grid-template-columns: 1fr auto; grid-template-areas: "top top" "title title" "meta meta" "actions actions"; } :global(.demo-record__actions) { justify-content: flex-start; margin-top: 0.35rem; } .demo-dialog__grid { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .demo-app { transition: none; } }
+</style>

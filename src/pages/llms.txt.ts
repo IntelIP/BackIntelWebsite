@@ -1,7 +1,8 @@
 import { getCollection } from "astro:content";
 import { absoluteUrl, siteDescription, siteName, siteOrigin } from "../config/site";
 
-const linkFor = (path: string) => (siteOrigin ? absoluteUrl(path) : path);
+const linkFor = (path: string) =>
+  path.startsWith("#") || /^https?:\/\//.test(path) ? path : siteOrigin ? absoluteUrl(path) : path;
 
 export async function GET() {
   const products = await getCollection("products", ({ data }) => data.visibility === "public");
@@ -15,14 +16,22 @@ export async function GET() {
   ];
 
   for (const { id, data } of products) {
-    const url = linkFor(`/projects/${id}/`);
+    const productPath = `/projects/${id}/`;
+    const url = linkFor(productPath);
+    const ctaUrl = data.cta.href.startsWith("#") ? `${url}${data.cta.href}` : linkFor(data.cta.href);
     lines.push(
       `### ${data.name}`,
       `- URL: [${data.name}](${url})`,
       `- Type: ${data.kind}`,
       `- Status: ${data.status}`,
       `- Summary: ${data.summary}`,
-      `- Product context: ${data.hero.lead}`,
+      `- Description: ${data.description}`,
+      `- Audience: ${data.audience}`,
+      `- Problem: ${data.problem}`,
+      `- Solution: ${data.solution}`,
+      `- Features: ${data.features.map(({ title }) => title).join(", ")}`,
+      `- Proof points: ${data.proofPoints.map(({ label, value }) => `${label}: ${value}`).join("; ")}`,
+      `- Primary CTA: [${data.cta.label}](${ctaUrl})`,
       `- Topics: ${data.tags.join(", ")}`,
       "",
     );

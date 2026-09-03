@@ -2,6 +2,8 @@
 
 PortfolioSite is a private, static Astro source repo. Content and media stay in Git; Cloudflare and analytics stay off until explicitly enabled.
 
+The reusable content contract and fork workflow live in [Product kit](./product-kit.md). Use this page for the operational launch path.
+
 ## Daily loop
 
 ```sh
@@ -47,8 +49,9 @@ The site already generates `/robots.txt`, `/sitemap.xml`, and `/llms.txt`. Publi
 
 ```sh
 npm run validate:profile
+npm run test:product-kit
 npm run validate:launch-kit
-npm run build
+PUBLIC_SITE_URL=https://your-domain.example npm run build
 ```
 
 These commands do not contact Cloudflare, a registrar, Neon, or an analytics service. CI validates the actual checked-out candidate and uploads the generated evidence; it does not deploy.

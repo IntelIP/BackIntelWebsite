@@ -187,10 +187,11 @@ document.
 
 ## Content model
 
-Project entries should eventually use a validated content schema with at least:
-
-`name`, `slug`, `tagline`, `status`, `visibility`, `category`, `accent`, `repo`,
-`demo`, `image`, `featured`, and `updatedAt`.
+Project entries use the validated product manifest in `src/content/products/*.md`.
+The required contract covers identity, a two-sentence description, audience,
+problem, solution, features, process, proof points, CTA, preview media,
+visibility, and the Markdown narrative body. See [Product kit](./product-kit.md)
+for the complete field list and fork workflow.
 
 Private, internal, paused, and archived work must not appear publicly by accident.
 

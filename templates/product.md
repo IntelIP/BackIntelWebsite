@@ -6,6 +6,10 @@ status: concept
 mark: N
 accent: "#737373"
 summary: Replace with a concise product summary.
+description: Replace with a clear product description. State the benefit in a second sentence.
+audience: Replace with the people who use or buy this product.
+problem: Replace with the costly or confusing problem this product addresses.
+solution: Replace with the clear product solution in plain English.
 seoTitle: Replace with a search title | IntelIP
 seoDescription: Replace with a useful search description.
 tags:
@@ -32,7 +36,6 @@ hero:
   kicker: PRODUCT / CONCEPT
   title: Product title
   titleAccent: Signal
-  lead: Replace with the clearest explanation of what this product makes possible.
 meta:
   - label: Status
     value: Concept
@@ -40,7 +43,7 @@ meta:
     value: Web product
   - label: Proof
     value: In progress
-capabilities:
+features:
   - number: 01
     title: Capability one
     copy: Replace with the first concrete capability.
@@ -60,9 +63,21 @@ flow:
   - number: 03
     label: Output
     copy: Replace with the useful result.
+proofPoints:
+  - label: Proof point one
+    value: Replace with a concrete signal
+    copy: Explain why this proof point matters.
+  - label: Proof point two
+    value: Replace with another signal
+    copy: Explain what this evidence supports.
 quote: Replace with the product's sharpest one-line thesis.
+cta:
+  title: Replace with the next move
+  titleAccent: the product should invite.
+  label: Replace with primary action
+  href: "#features"
 ---
 
 ## Product narrative
 
-Replace this section with the product context, operating model, and evidence that should be visible to people and retrieval systems.
+Replace this section with product context, operating model, and evidence visible to people and retrieval systems. Keep important claims in normal Markdown so the static page remains understandable without JavaScript.

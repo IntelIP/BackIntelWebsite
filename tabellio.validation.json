@@ -5,25 +5,31 @@
   "failFast": true,
   "acceptance": {
     "id": "portfolio-site-local-specimen",
-    "source": "docs/design-language.md, docs/rapid-launch.md, and the approved localhost specimen brief",
+    "source": "docs/product-kit.md, docs/seo-and-agent-discovery.md, docs/design-language.md, and the approved localhost specimen brief",
     "risk": "medium",
     "outcomes": [
       "Astro renders a substantial monochrome portfolio and design-system specimen.",
       "Product accents remain scoped to product identity and action roles.",
-      "The design profile stays machine-readable and deterministically validated."
+      "The design profile stays machine-readable and deterministically validated.",
+      "Each public product page carries plain-English context, crawlable metadata, and static content.",
+      "The approved accessibility release target is a Lighthouse score of at least 0.90."
     ],
     "invariants": [
       "The prototype remains static and performs no Neon or production writes.",
       "The base palette remains black, white, and gray.",
       "Product accents do not become generic semantic status colors.",
-      "Cloudflare, domain, and analytics actions remain opt-in and credential-gated."
+      "Cloudflare, domain, and analytics actions remain opt-in and credential-gated.",
+      "Analytics defaults to a no-op provider and emits no OpenPanel network surface when disabled.",
+      "The embedded demo keeps its state local and its responsive surface inside the product page.",
+      "Important product meaning remains visible in HTML and is not dependent on JavaScript or media."
     ],
     "forbiddenOutcomes": [
       "SSR, database access, external deployment, or secret use is introduced by the prototype.",
       "A validation command performs a Cloudflare, domain, analytics, or billing write.",
+      "Visitor changes in the demo are represented as production data or persisted outside the mockup.",
       "Visual readiness is reported without rendered review."
     ],
-    "requiredValidatorTypes": ["static", "schema"]
+    "requiredValidatorTypes": ["static", "schema", "workflow"]
   },
   "validators": [
     {
@@ -55,6 +61,20 @@
       }
     },
     {
+      "id": "product-kit-contract",
+      "type": "static",
+      "argv": ["npm", "run", "test:product-kit"],
+      "cwd": ".",
+      "timeoutMs": 30000,
+      "required": true,
+      "evidence": { "path": "artifacts/validation/product-kit.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
       "id": "launch-kit-static",
       "type": "static",
       "argv": ["npm", "run", "validate:launch-kit"],
@@ -62,6 +82,48 @@
       "timeoutMs": 30000,
       "required": true,
       "evidence": { "path": "artifacts/validation/launch-kit.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
+      "id": "live-mockup-tests",
+      "type": "workflow",
+      "argv": ["npm", "run", "test:live-mockup"],
+      "cwd": ".",
+      "timeoutMs": 30000,
+      "required": true,
+      "evidence": { "path": "artifacts/validation/live-mockup.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
+      "id": "analytics-provider-tests",
+      "type": "workflow",
+      "argv": ["npm", "run", "test:analytics"],
+      "cwd": ".",
+      "timeoutMs": 30000,
+      "required": true,
+      "evidence": { "path": "artifacts/validation/analytics.json" },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
+      "id": "astro-typecheck",
+      "type": "workflow",
+      "argv": ["npm", "run", "typecheck"],
+      "cwd": ".",
+      "timeoutMs": 30000,
+      "required": true,
+      "evidence": { "path": "artifacts/validation/typecheck.json" },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
