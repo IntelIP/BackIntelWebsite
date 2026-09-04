@@ -53,10 +53,16 @@ Run the local contract before review:
 npm run test:product-kit
 PUBLIC_SITE_URL=https://your-domain.example npm run build
 npm run test:live-mockup
+npm run lighthouse:ci
 ```
 
 The build validates static HTML, one H1 per page, landmarks, metadata, JSON-LD, internal page links, sitemap coverage, and `llms.txt` coverage. It also proves the page content exists in static output; the surrounding product page remains readable with JavaScript disabled.
 
-Accessibility release target: Lighthouse accessibility score `>= 0.90` on the built public sample page. This repository keeps the deterministic semantic checks local; run Lighthouse in the approved CI/release environment where that tool is provisioned and retain the report with the candidate evidence.
+Lighthouse CI uses [lighthouserc.json](../lighthouserc.json) and the built
+`dist/` directory. It audits `/` and `/projects/tabellio/` three times, uses the
+median run for assertions, and requires each category to reach `0.90` or higher:
+performance, accessibility, best practices, and SEO. Reports are written to
+the ignored `artifacts/validation/lighthouse/` directory in CI and should be
+retained with the candidate evidence.
 
 When launch is approved, `npm run package` creates the release artifact. Terraform under `infra/cloudflare-pages/` prepares Cloudflare Pages configuration; `npm run deploy:cloudflare` remains an explicit, credential-gated action. Domain checks, analytics, and deployment are separate from content validation.

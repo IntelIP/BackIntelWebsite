@@ -50,12 +50,19 @@ jobs:
 
       - name: Build and record static evidence
         shell: bash
+        env:
+          PUBLIC_SITE_URL: https://template.example
         run: |
           set +e
           npm run build > artifacts/validation/astro-build.log 2>&1
           build_exit=$?
           node scripts/record-build-evidence.mjs "$build_exit"
           exit "$build_exit"
+
+      - name: Run Lighthouse CI against production build
+        env:
+          PUBLIC_SITE_URL: https://template.example
+        run: npm run lighthouse:ci
 
       - name: Upload validation evidence
         if: always()

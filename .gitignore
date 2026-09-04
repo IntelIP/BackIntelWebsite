@@ -3,6 +3,7 @@ dist/
 .astro/
 artifacts/validation/
 artifacts/releases/
+.lighthouseci/
 .env
 .env.*
 !.env.example

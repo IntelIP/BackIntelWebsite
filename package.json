@@ -16,6 +16,8 @@
     "test:product-kit": "node scripts/test-product-kit.mjs",
     "test:live-mockup": "node scripts/test-live-mockup.mjs",
     "test:analytics": "node --experimental-strip-types scripts/test-analytics.ts",
+    "assets:demo": "node scripts/build-readme-demo.mjs",
+    "lighthouse:ci": "lhci autorun --config=./lighthouserc.json",
     "typecheck": "node scripts/run-typecheck.mjs",
     "preview": "astro preview",
     "validate:profile": "node scripts/validate-design-profile.mjs"
@@ -27,7 +29,18 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@lhci/cli": "0.15.1",
     "@types/node": "^26.4.0",
     "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "@lhci/cli": {
+      "@puppeteer/browsers": "3.2.2",
+      "proxy-agent": "8.0.2",
+      "puppeteer-core": "25.10.0",
+      "qs": "6.16.0",
+      "tmp": "0.2.7",
+      "uuid": "11.1.1"
+    }
   }
 }
