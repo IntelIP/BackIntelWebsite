@@ -1,275 +1,116 @@
 ---
+import { getEntry } from "astro:content";
 import Shell from "../layouts/Shell.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import ArtifactPreview from "../components/ArtifactPreview.astro";
-import { getCollection } from "astro:content";
-import { absoluteUrl, siteDescription, siteName } from "../config/site";
-import { buildSiteJsonLd } from "../config/seo.mjs";
+import { absoluteUrl, repositoryUrl, siteName } from "../config/site";
+import { buildProductJsonLd } from "../config/seo.mjs";
+import "../styles/backintel.css";
 
-const productEntries = await getCollection("products", ({ data }) => data.visibility === "public");
-const projects = productEntries
-  .filter(({ data }) => data.featured)
-  .map(({ id, data }) => ({ ...data, href: `/projects/${id}/` }));
-
-const jsonLd = buildSiteJsonLd({ name: siteName, description: siteDescription, url: absoluteUrl("/") });
-
-const metrics = [
-  { value: "03", label: "active product directions" },
-  { value: "01", label: "shared visual language" },
-  { value: "∞", label: "room for signal" },
-];
-
-const method = [
-  {
-    number: "01",
-    title: "Frame the signal",
-    copy: "Start with the user, the outcome, and the evidence that deserves attention.",
-  },
-  {
-    number: "02",
-    title: "Build the smallest system",
-    copy: "Keep the base quiet. Give each product only the accent and pattern it needs.",
-  },
-  {
-    number: "03",
-    title: "Prove it in the browser",
-    copy: "Render real content at real breakpoints before calling the language finished.",
-  },
+const entry = await getEntry("products", "backintel");
+if (!entry) throw new Error("BackIntel content is missing.");
+const product = entry.data;
+const jsonLd = buildProductJsonLd({
+  siteName, siteUrl: absoluteUrl("/"), productUrl: absoluteUrl("/"), product,
+  title: product.seoTitle, description: product.seoDescription,
+  applicationCategory: "BusinessApplication",
+});
+const steps = ["Report", "Interpret", "Compare", "Refresh", "Review"];
+const capabilities = [
+  { title: "Collect", copy: "Check incoming records and measurements. Retain their original text, source identity and version.", technology: "Python / PostgreSQL" },
+  { title: "Interpret", copy: "Ask a defined question about a report. Validate the answer as a typed observation for analysis.", technology: "Jev" },
+  { title: "Compare", copy: "Compare two prediction methods on the same records, with and without interpreted reports, against a baseline.", technology: "CatBoost / TabICLv2" },
+  { title: "Refresh", copy: "Follow the approved workflow. Resume durable jobs and refresh affected evidence when records change.", technology: "LangGraph / Aegra" },
+  { title: "Review", copy: "Publish a shared decision packet. Present its facts, sources, estimates and limitations for a person to review.", technology: "React / optional Reflex" },
 ];
 ---
-
-<Shell
-  title="IntelIP — Product systems with a signal"
-  description={siteDescription}
-  jsonLd={jsonLd}
-  analyticsProject={siteName}
->
-  <div class="site-shell">
-    <header class="topbar">
-      <a class="topbar__wordmark" href="/" aria-label="IntelIP home">
-        <span class="topbar__mark">I</span>
-        <span>INTELIP</span>
-        <small>PORTFOLIO SYSTEM / V0.1</small>
-      </a>
-      <nav class="topbar__nav" aria-label="Main navigation">
-        <a href="#projects">Projects</a>
-        <a href="#system">System</a>
-        <a href="#method">Method</a>
-      </nav>
-      <a class="topbar__status" href="#system"><span></span> Design direction</a>
+<Shell title={product.seoTitle} description={product.seoDescription} image="/media/backintel-social.png" imageAlt="BackIntel autonomous intelligence for data workflows. Actual Access case with sources, predictions and human review." jsonLd={jsonLd} themeColor={product.accent} analyticsProject="BackIntel">
+  <div class="bi-page">
+    <a class="bi-skip" href="#main">Skip to content</a>
+    <header class="bi-header bi-container">
+      <a class="bi-brand" href="/" aria-label="BackIntel home"><img src="/favicon.svg" width="32" height="32" alt="" />BackIntel</a>
+      <nav aria-label="Main navigation"><a href="#workflow">Technology</a><a href="#use-cases">Workflows</a></nav>
+      <a class="bi-button bi-button-outline bi-button-small" href={repositoryUrl} aria-label="View BackIntel on GitHub, access required">View on GitHub <span aria-hidden="true">↗</span></a>
     </header>
-
-    <main>
-      <section class="hero section-grid" aria-labelledby="hero-title">
-        <div class="hero__gridline" aria-hidden="true"></div>
-        <div class="container hero__inner">
-          <div class="hero__eyebrow eyebrow">
-            <span class="eyebrow__line"></span>
-            <span>Independent product studio / 2026</span>
-          </div>
-
-          <div class="hero__content">
-            <div class="hero__title-wrap">
-              <p class="hero__index">INDEX / 001</p>
-              <h1 id="hero-title">Software<br /><span>with a signal.</span></h1>
-            </div>
-            <div class="hero__aside">
-              <p class="hero__lead">
-                A shared home for focused products, useful experiments, and the evidence
-                behind how they are built.
-              </p>
-              <div class="hero__actions">
-                <a class="button button--solid" href="#projects">Explore projects <span>↘</span></a>
-                <a class="button button--quiet" href="#system">View the system</a>
-              </div>
-              <p class="hero__note mono">BASE / MONOCHROME &nbsp;&nbsp; ACCENTS / PER PRODUCT</p>
-            </div>
-          </div>
-
-          <div class="hero__rail" aria-label="System summary">
-            <div><span class="mono">01</span><strong>MONOCHROME BASE</strong><small>black / white / gray</small></div>
-            <div><span class="mono">02</span><strong>PRODUCT SIGNAL</strong><small>one accent per product</small></div>
-            <div><span class="mono">03</span><strong>STATIC FIRST</strong><small>fast, clear, portable</small></div>
-          </div>
+    <main id="main">
+      <section class="bi-hero bi-container" aria-labelledby="hero-title">
+        <div class="bi-hero-copy">
+          <p class="bi-eyebrow">Autonomous data engineering, science &amp; analysis</p>
+          <h1 id="hero-title">Autonomous intelligence<br class="bi-desktop-break" /> <span>for your data workflows.</span></h1>
+          <p class="bi-lead">BackIntel is an autonomous agent specializing in data engineering, data science and dataset analysis. It prepares data, compares models and refreshes findings through repeatable workflows, with traceable evidence and human oversight.</p>
         </div>
       </section>
 
-      <section id="projects" class="section section--dark" aria-labelledby="projects-title">
-        <div class="container">
-          <div class="section-heading section-heading--inverse">
-            <div>
-              <p class="eyebrow"><span class="eyebrow__line"></span>01 / Work in motion</p>
-              <h2 id="projects-title">Different products.<br /><span>Shared discipline.</span></h2>
-            </div>
-            <p>
-              The shell stays neutral so each project can carry one clear signal. Cards,
-              metadata, and evidence follow the same rhythm.
-            </p>
-          </div>
+      <section class="bi-section bi-container bi-problem-section" id="problem" aria-labelledby="problem-title">
+        <div class="bi-section-heading"><div><p class="bi-eyebrow">The work behind every data workflow</p><h2 id="problem-title">Every update restarts<br />the preparation.</h2></div><p>Data teams collect records, interpret reports, prepare features and compare models before explaining a result. When a dataset changes, they must work out what needs running again.</p></div>
+        <div class="bi-problems">
+          <article><span class="bi-overline">01 / Scattered information</span><h3>Reports and records arrive separately.<br /> Analysis needs a consistent dataset.</h3><p>Someone has to connect structured records with free-text reports and check which information is usable before analysis can begin.</p></article>
+          <article><span class="bi-overline">02 / Repeated preparation</span><h3>Another dataset update arrives.<br /> The analysis needs another run.</h3><p>People repeat preparation, feature building and model comparison. Findings wait while the team reconstructs the workflow.</p></article>
+          <article><span class="bi-overline">03 / Stale findings</span><h3>A source changes.<br /> Earlier results need checking.</h3><p>The team must trace affected inputs, rerun the right analysis and keep an explanation of what changed with the result.</p></article>
+        </div>
+        <p class="bi-section-note">The aim: less repeated preparation, fewer stale findings and shorter decision delays. These benefits need measurement in a real workflow.</p>
+      </section>
 
-          <div class="project-grid">
-            {projects.map((project, index) => <ProjectCard project={project} index={index + 1} />)}
-          </div>
+      <section class="bi-output-section" id="output" aria-labelledby="output-title"><div class="bi-container">
+        <div class="bi-section-heading"><div><p class="bi-eyebrow">The useful output</p><h2 id="output-title">A review that keeps<br />its evidence.</h2></div><p>A decision packet brings a finding together with the facts, sources, estimates and limitations behind it. The reviewer can inspect the reasoning and choose a follow-up.</p></div>
+        <ul class="bi-packet-contents" aria-label="Decision packet contents"><li>Structured finding</li><li>Original sources</li><li>Prediction &amp; limits</li><li>Human review</li></ul>
+        <figure class="bi-hero-visual">
+          <div class="bi-workspace-bar"><span>Decision packet / Access service queue</span><span class="bi-recorded">Synthetic example · Recorded results</span></div>
+          <picture>
+            <source media="(max-width: 360px)" srcset="/media/access-mobile-288.png" width="288" height="930" />
+            <source media="(max-width: 600px)" srcset="/media/access-mobile-358.png" width="358" height="930" />
+            <img class="bi-workspace-shot" src="/media/support-review.png" width="1280" height="840" loading="lazy" alt="Actual BackIntel Access service queue case, showing its finding, source evidence, prediction comparison and human review controls. Saved synthetic results." />
+          </picture>
+          <figcaption>The actual application, with a case selected. Facts, model estimates and the reviewer’s decision remain distinct.</figcaption>
+        </figure>
+      </div></section>
 
-          <div class="artifact-intro">
-            <p class="eyebrow"><span class="eyebrow__line"></span>01.5 / Product proof</p>
-            <div>
-              <h3>Show the product,<br /><span>not only the promise.</span></h3>
-              <p>
-                Every project can carry one visual artifact: a UI frame, a product screenshot,
-                or a short demo that makes the work tangible before the visitor reads the details.
-              </p>
-            </div>
-          </div>
+      <section class="bi-workflow-section" id="workflow" aria-labelledby="workflow-title"><div class="bi-container">
+        <div class="bi-section-heading"><div><p class="bi-eyebrow">The technology behind the agent</p><h2 id="workflow-title">Prepare data. Compare models.<br />Keep the analysis running.</h2></div><p>Data engineering prepares checked records and features. Data science compares predictive methods. Analysis turns the results into traceable findings. The agent coordinates these steps within an approved workflow.</p></div>
+        <ol class="bi-flow">{capabilities.map(({ title, copy, technology }, i) => <li><span class="bi-step-number">0{i + 1}</span><h3>{title}</h3><p>{copy}</p><span class="bi-flow-tech">{technology}</span></li>)}</ol>
+        <div class="bi-runtime-note"><strong>Background work, with defined boundaries.</strong><p>LangGraph coordinates approved steps. Aegra owns scheduling. Durable jobs retain progress, and versioned evidence identifies what needs refreshing after an arrival or correction. The workflow does not invent business goals or take action on customers.</p></div>
+        <div class="bi-output-line"><strong>One packet. More than one presentation.</strong><p>React and the optional Python interface, Reflex, read the same review data. The interface presents the capability; it does not define the analysis.</p></div>
+      </div></section>
 
-          <div class="artifact-grid">
-            {projects.map((project, index) => <ArtifactPreview project={project} index={index + 1} />)}
-          </div>
-
-          <div class="metric-grid">
-            {metrics.map((metric) => (
-              <div class="metric">
-                <strong>{metric.value}</strong>
-                <span>{metric.label}</span>
-              </div>
-            ))}
-          </div>
+      <section class="bi-section bi-container" id="use-cases" aria-labelledby="use-cases-title">
+        <div class="bi-section-heading"><div><p class="bi-eyebrow">Example data workflows</p><h2 id="use-cases-title">Different datasets.<br />A repeatable method.</h2></div><p>Define the dataset, analysis question and approved steps. The current synthetic Support and Equipment examples show how the same preparation, interpretation, prediction and review method applies to different workflows.</p></div>
+        <div class="bi-setup-grid">
+          <article><span class="bi-overline">Support operations</span><h3>Which queue needs attention?</h3><p>Join customer problem reports with queue measurements. Review the finding and its estimate. Refresh the evidence when a report or measurement changes.</p><p class="bi-note">For support leads and operations analysts. Demonstrated with synthetic records.</p><a class="bi-text-link" href="#demo">Follow the Support example ↓</a></article>
+          <article><span class="bi-overline">Equipment operations</span><h3>Which equipment needs a closer look?</h3><p>Join maintenance notes with equipment measurements. Compare predictive approaches and prepare a source-linked packet for a supervisor’s review.</p><p class="bi-note">For equipment supervisors and maintenance analysts. Demonstrated with synthetic records.</p></article>
         </div>
       </section>
 
-      <section id="system" class="section section--paper" aria-labelledby="system-title">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow"><span class="eyebrow__line"></span>02 / Design language</p>
-              <h2 id="system-title">The base stays quiet.<br /><span>The products bring signal.</span></h2>
-            </div>
-            <p>
-              A living specimen for the rules behind the portfolio: neutral surfaces,
-              readable type, deliberate density, and accents with a job.
-            </p>
+      <section class="bi-proof-section" aria-labelledby="demo-title"><div class="bi-container">
+        <div class="bi-section-heading"><div><p class="bi-eyebrow">Demonstration evidence</p><h2 id="demo-title">See the evidence change.</h2></div><p>A customer cannot sign in, and the Access queue is busy. Follow the actual saved model results from a synthetic report to a review. This playback makes no new model calls.</p></div>
+        <div class="bi-demo" id="demo" data-walkthrough>
+          <div class="bi-demo-toolbar"><span>Support operations / Access</span><span class="bi-recorded">Recorded playback · Synthetic data</span></div>
+          <div class="bi-step-buttons" role="group" aria-label="Recorded workflow stages">{steps.map((label, i) => <button type="button" data-step={i} aria-controls="demo-result" aria-pressed={i === 0}><span>0{i + 1}</span>{label}<span class="bi-step-arrow" aria-hidden="true">→</span></button>)}</div>
+          <div class="bi-step-mobile"><label for="workflow-stage">Workflow stage</label><select id="workflow-stage" data-stage-select aria-controls="demo-result">{steps.map((label, i) => <option value={i}>0{i + 1} / {label}</option>)}</select></div>
+          <div class="bi-demo-body" id="demo-result" aria-live="polite" aria-atomic="true">
+            <div class="bi-demo-story"><p class="bi-overline" data-stage-label>01 / Original report</p><h3 data-stage-title>A customer cannot access their account.</h3><p data-stage-copy>The customer still receives an error after resetting their password. BackIntel retains that message alongside the queue load, source identity, and availability time.</p><span class="bi-demo-tech" data-stage-tech>Collect and check · Python / PostgreSQL</span></div>
+            <div class="bi-demo-detail"><span class="bi-overline" data-detail-label>Original evidence</span><strong data-detail-value>“Login failed.”</strong><p data-detail-copy>70 tickets in the recorded queue. Source text and measurements remain separate from model judgments.</p><span class="bi-detail-note" data-detail-note>Synthetic customer report · No customer data</span></div>
           </div>
-
-          <div class="specimen-grid">
-            <article class="specimen-card specimen-card--palette">
-              <div class="specimen-card__header">
-                <span class="mono">COLOR / 01</span>
-                <span>neutral foundation</span>
-              </div>
-              <div class="swatch-list">
-                <div class="swatch swatch--white"><span></span><div><strong>WHITE</strong><small>#FFFFFF / canvas</small></div></div>
-                <div class="swatch swatch--gray"><span></span><div><strong>GRAY</strong><small>#F5F5F5 / surface</small></div></div>
-                <div class="swatch swatch--line"><span></span><div><strong>LINE</strong><small>#E5E5E5 / border</small></div></div>
-                <div class="swatch swatch--black"><span></span><div><strong>BLACK</strong><small>#0A0A0A / canvas</small></div></div>
-              </div>
-              <div class="accent-row">
-                <span class="accent-chip accent-chip--blue"><i></i>N10 IP / blue</span>
-                <span class="accent-chip accent-chip--green"><i></i>Neural / green</span>
-              </div>
-            </article>
-
-            <article class="specimen-card specimen-card--type">
-              <div class="specimen-card__header">
-                <span class="mono">TYPE / 02</span>
-                <span>inter variable / jetbrains mono</span>
-              </div>
-              <p class="type-display">Signal,<br />not noise.</p>
-              <p class="type-body">
-                A clear type system gives the content room to work. Headlines carry
-                direction. Body copy carries meaning. Mono carries technical context.
-              </p>
-              <p class="type-mono">N10 / STATUS / SHAPING / 2026</p>
-            </article>
-
-            <article class="specimen-card specimen-card--controls">
-              <div class="specimen-card__header">
-                <span class="mono">UI / 03</span>
-                <span>quiet controls / clear actions</span>
-              </div>
-              <div class="control-stack">
-                <div class="control-row">
-                  <a class="button button--solid" href="#projects">Primary action <span>↗</span></a>
-                  <a class="button button--outline" href="#method">Secondary</a>
-                </div>
-                <div class="control-row">
-                  <span class="status-pill"><i></i> system ready</span>
-                  <span class="status-pill status-pill--blue"><i></i> N10 IP</span>
-                  <span class="status-pill status-pill--green"><i></i> Neural</span>
-                </div>
-                <div class="fake-input"><span class="mono">SEARCH PROJECTS</span><kbd>⌘ K</kbd></div>
-              </div>
-            </article>
-
-            <article class="specimen-card specimen-card--dark">
-              <div class="specimen-card__header">
-                <span class="mono">SURFACE / 04</span>
-                <span>dark theme / raised content</span>
-              </div>
-              <div class="dark-sample">
-                <div class="dark-sample__top"><span class="dark-sample__dot"></span><span class="mono">PROJECT / N10 IP</span><span class="dark-sample__arrow">↗</span></div>
-                <h3>Make the important thing easy to see.</h3>
-                <p>Accent enters only where product identity or action needs a signal.</p>
-                <div class="dark-sample__footer"><span class="status-pill status-pill--blue"><i></i> shaping</span><span class="mono">N10 / 01</span></div>
-              </div>
-            </article>
-          </div>
-
-          <div class="system-callout">
-            <span class="system-callout__mark">+</span>
-            <p>Standardize the grammar. Let the products keep their voice.</p>
-            <a href="#method" class="text-link">See the method <span>↘</span></a>
-          </div>
+          <div class="bi-demo-footer"><span>Explore the stages. The saved review stays unchanged.</span><a class="bi-text-link" href="/demo-guide.txt" download>Five-minute demo guide ↓</a></div>
+          <noscript><p class="bi-noscript">Switching stages needs JavaScript. Read all five stages in the <a href="/demo-guide.txt">demo guide</a>.</p></noscript>
         </div>
-      </section>
+        <details class="bi-evidence-details"><summary>Technical evidence and demonstration limits <span aria-hidden="true">+</span></summary><div>
+          <p>The retained <strong>business-v4</strong> run completed Support and Equipment with <strong>54 actual hosted Jev responses</strong> and <strong>90 background jobs</strong>. CatBoost and TabICLv2 ran locally on measurements alone and measurements plus Jev, with a baseline for comparison. Replaying the run reused all 90 jobs and preserved their results.</p>
+          <p>Support used 18 earlier training records and six later selection cases. CatBoost + Jev was selected with probability error 0.1086; the baseline was 0.2531. These six cases select a method. They do not establish customer accuracy.</p>
+          <p>The current synthetic estimates are <strong>Access 78.7%</strong> and <strong>corrected Accounts 26.4%</strong>. Source arrivals and corrections refreshed the findings. A synthetic Access review was saved in React and read through the optional Python interface.</p>
+          <p>Handling-time savings, revenue, local compute cost and net benefit remain unmeasured. This website does not run predictions, save decisions or take action on customers. The source is licensed under MIT; full operating and real-world release acceptance remain pending.</p>
+        </div></details>
+        <div class="bi-source-note"><div><strong>Inspect how the workflow is built.</strong><p>BackIntel is open source under the MIT license. Explore the code, run the synthetic examples and adapt a workflow.</p></div><a class="bi-text-link" href={repositoryUrl}>View BackIntel on GitHub ↗</a></div>
+      </div></section>
 
-      <section id="method" class="section section--gray" aria-labelledby="method-title">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow"><span class="eyebrow__line"></span>03 / Operating method</p>
-              <h2 id="method-title">Make the system<br /><span>earn its complexity.</span></h2>
-            </div>
-            <p>
-              The first version should be useful before it is complete. Every rule earns
-              its place by making a product easier to understand or operate.
-            </p>
-          </div>
+      <section class="bi-section bi-container bi-faq-section" aria-labelledby="faq-title"><div><p class="bi-eyebrow">A few useful answers</p><h2 id="faq-title">What to expect.</h2></div><div class="bi-faq-list">
+        <details><summary>What work does BackIntel automate?<span aria-hidden="true">+</span></summary><p>Defined data engineering, science and analysis workflows: checking records, interpreting reports, preparing features, comparing predictions and refreshing affected findings. People define the question, approve the workflow and retain consequential decisions.</p></details>
+        <details><summary>What is autonomous, and what stays human?<span aria-hidden="true">+</span></summary><p>BackIntel carries out approved steps in a predefined workflow as records arrive or change. Models help interpret text and estimate outcomes. A person reviews the packet and chooses the follow-up. It does not independently invent business goals or act on customers.</p></details>
+        <details><summary>Does this require a new dashboard?<span aria-hidden="true">+</span></summary><p>The output is a structured decision packet. The current React and optional Reflex interfaces show the same packet. Another presentation or workflow integration would need to be built around that shared data.</p></details>
+        <details><summary>Does the demonstration prove accuracy or savings?<span aria-hidden="true">+</span></summary><p>It demonstrates connected execution, source changes and a saved review on synthetic data. Customer accuracy, time saved and financial benefit remain unproven. A real pilot needs approved data, a human baseline and a way to measure quality and full cost.</p></details>
+        <details><summary>Can I use the source today?<span aria-hidden="true">+</span></summary><p>The GitHub repository currently requires access. Public source licensing, release validation and distribution still need decisions. The local demonstration can be reviewed with the team.</p></details>
+      </div></section>
 
-          <div class="method-grid">
-            {method.map((item) => (
-              <article class="method-card">
-                <span class="method-card__number mono">{item.number}</span>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-                <span class="method-card__arrow" aria-hidden="true">↘</span>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section class="signal-banner section--dark" aria-label="Design principle">
-        <div class="container signal-banner__inner">
-          <p class="mono">DESIGN PRINCIPLE / 001</p>
-          <blockquote>“The base stays quiet so the products can speak.”</blockquote>
-          <span class="signal-banner__line" aria-hidden="true"></span>
-        </div>
-      </section>
+      <section class="bi-pilot-section" id="pilot" aria-labelledby="pilot-title"><div class="bi-container bi-pilot-grid"><div><p class="bi-eyebrow">Make the value measurable</p><h2 id="pilot-title">Bring one recurring review.<br /><span>Measure what changes.</span></h2><p>Define the question and a useful packet. Compare preparation time, review quality and operating cost against the current process before expanding the workflow.</p></div><a class="bi-button" href="https://intelip.co">Explore a workflow with IntelIP ↗</a></div></section>
     </main>
-
-    <footer class="footer">
-      <div class="container footer__inner">
-        <div>
-          <p class="footer__wordmark">INTELIP<span>/</span></p>
-          <p class="footer__note">A working specimen for a shared product language.</p>
-        </div>
-        <div class="footer__meta mono">
-          <span>STATIC FIRST</span>
-          <span>NEUTRAL BASE</span>
-          <span>ACCENT BY PRODUCT</span>
-        </div>
-        <a class="footer__top" href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Back to top ↑</a>
-      </div>
-    </footer>
+    <footer class="bi-container bi-footer"><a class="bi-brand" href="/"><img src="/favicon.svg" width="28" height="28" alt="" />BackIntel<span class="bi-by">by IntelIP</span></a><p>Autonomous intelligence for data workflows.</p><div><a href={repositoryUrl}>GitHub</a><a href="/demo-guide.txt">Demo guide</a><a href="#top">Back to top ↑</a></div></footer>
   </div>
+  <script src="../scripts/backintel-walkthrough.ts"></script>
 </Shell>

@@ -29,7 +29,7 @@ mediaType: UI concept
 mediaCaption: Proof behind the progress.
 demoDuration: "00:56"
 demoStatus: reserved
-visibility: public
+visibility: private
 featured: true
 hero:
   kicker: SAMPLE PRODUCT PAGE / ILLUSTRATIVE CONTENT

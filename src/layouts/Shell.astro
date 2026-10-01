@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { absoluteUrl, siteName, siteOrigin } from "../config/site";
+import { absoluteUrl, siteIsPublic, siteName, siteOrigin } from "../config/site";
 import { readAnalyticsConfig } from "../analytics/config.ts";
 import { getBrowserAnalyticsRuntime } from "../analytics/browser.ts";
 
@@ -10,8 +10,9 @@ const {
   image,
   imageAlt,
   type = "website",
-  noindex = false,
+  noindex = !siteIsPublic,
   jsonLd = [],
+  themeColor = "#0A0A0A",
   analyticsProject = siteName,
   analyticsEnvironment = import.meta.env.PUBLIC_ANALYTICS_ENVIRONMENT ??
     (import.meta.env.DEV ? "development" : "production"),
@@ -37,8 +38,9 @@ const analyticsRuntime = getBrowserAnalyticsRuntime(analyticsConfig);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
-    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="theme-color" content={themeColor} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site index" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <meta property="og:site_name" content={siteName} />

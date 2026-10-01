@@ -29,7 +29,7 @@ mediaType: UI concept
 mediaCaption: A live surface for the work.
 demoDuration: "00:42"
 demoStatus: reserved
-visibility: public
+visibility: private
 featured: true
 hero:
   kicker: SAMPLE PRODUCT PAGE / ILLUSTRATIVE CONTENT

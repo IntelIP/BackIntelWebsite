@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">BackIntel mission board concept</title>
+  <desc id="desc">A ready story flows through a lead, two isolated coding workers, checks, and a draft pull request for human review.</desc>
+  <rect width="1200" height="760" fill="#0a0a0a"/>
+  <g stroke="#272727" stroke-width="1">
+    <path d="M0 80h1200M0 160h1200M0 240h1200M0 320h1200M0 400h1200M0 480h1200M0 560h1200M0 640h1200M0 720h1200"/>
+    <path d="M80 0v760M160 0v760M240 0v760M320 0v760M400 0v760M480 0v760M560 0v760M640 0v760M720 0v760M800 0v760M880 0v760M960 0v760M1040 0v760M1120 0v760"/>
+  </g>
+  <rect x="48" y="42" width="1104" height="676" rx="16" fill="#111111" stroke="#353535"/>
+  <circle cx="81" cy="76" r="5" fill="#6d5ef7"/>
+  <text x="102" y="81" fill="#f5f5f5" font-family="Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="3">BACKINTEL</text>
+  <text x="1094" y="80" fill="#a3a3a3" text-anchor="end" font-family="monospace" font-size="12" letter-spacing="2">MISSION / CONCEPT</text>
+  <path d="M68 105h1064" stroke="#353535"/>
+  <text x="84" y="153" fill="#a3a3a3" font-family="monospace" font-size="13" letter-spacing="2">STORY  /  READY</text>
+  <text x="84" y="195" fill="#f5f5f5" font-family="Arial,sans-serif" font-size="31" font-weight="600">Ship one reviewable outcome</text>
+  <text x="84" y="224" fill="#a3a3a3" font-family="Arial,sans-serif" font-size="15">Outcome, acceptance checks, boundaries, and owner travel with the work.</text>
+  <rect x="84" y="269" width="210" height="170" rx="10" fill="#1b1b1b" stroke="#6d5ef7" stroke-width="2"/>
+  <text x="105" y="303" fill="#9f95ff" font-family="monospace" font-size="12" letter-spacing="2">01 / TECH LEAD</text>
+  <text x="105" y="348" fill="#f5f5f5" font-family="Arial,sans-serif" font-size="25" font-weight="600">Plan &amp; assign</text>
+  <text x="105" y="381" fill="#a3a3a3" font-family="Arial,sans-serif" font-size="14">Scope the slices.</text>
+  <text x="105" y="405" fill="#a3a3a3" font-family="Arial,sans-serif" font-size="14">Watch exceptions.</text>
+  <path d="M294 354h55" stroke="#9f95ff" stroke-width="2"/>
+  <path d="m340 347 9 7-9 7" fill="none" stroke="#9f95ff" stroke-width="2"/>
+  <rect x="350" y="269" width="250" height="76" rx="10" fill="#1b1b1b" stroke="#484848"/>
+  <text x="371" y="296" fill="#a3a3a3" font-family="monospace" font-size="11" letter-spacing="1">02A / PI WORKER</text>
+  <text x="371" y="325" fill="#f5f5f5" font-family="Arial,sans-serif" font-size="19">Branch: feature slice</text>
+  <rect x="350" y="363" width="250" height="76" rx="10" fill="#1b1b1b" stroke="#484848"/>
+  <text x="371" y="390" fill="#a3a3a3" font-family="monospace" font-size="11" letter-spacing="1">02B / PI WORKER</text>
+  <text x="371" y="419" fill="#f5f5f5" font-family="Arial,sans-serif" font-size="19">Branch: test slice</text>
+  <path d="M600 307h64v47h39M600 401h64v-47h39" fill="none" stroke="#666" stroke-width="2"/>
+  <path d="m693 347 10 7-10 7" fill="none" stroke="#9f95ff" stroke-width="2"/>
+  <rect x="704" y="269" width="180" height="170" rx="10" fill="#1b1b1b" stroke="#484848"/>
+  <text x="725" y="303" fill="#a3a3a3" font-family="monospace" font-size="12" letter-spacing="1">03 / INTEGRATE</text>
+  <text x="725" y="348" fill="#f5f5f5" font-family="Arial,sans-serif" font-size="23" font-weight="600">Run checks</text>
+  <text x="725" y="381" fill="#a3a3a3" font-family="Arial,sans-serif" font-size="14">Build. Test.</text>
+  <text x="725" y="405" fill="#a3a3a3" font-family="Arial,sans-serif" font-size="14">Review diff.</text>
+  <path d="M884 354h49" stroke="#9f95ff" stroke-width="2"/>
+  <path d="m924 347 9 7-9 7" fill="none" stroke="#9f95ff" stroke-width="2"/>
+  <rect x="934" y="269" width="180" height="170" rx="10" fill="#6d5ef7"/>
+  <text x="955" y="303" fill="#e7e3ff" font-family="monospace" font-size="12" letter-spacing="1">04 / HANDOFF</text>
+  <text x="955" y="348" fill="#ffffff" font-family="Arial,sans-serif" font-size="23" font-weight="700">Draft PR</text>
+  <text x="955" y="381" fill="#f0edff" font-family="Arial,sans-serif" font-size="14">Human review.</text>
+  <text x="955" y="405" fill="#f0edff" font-family="Arial,sans-serif" font-size="14">Human merge.</text>
+  <path d="M84 483h1030" stroke="#353535"/>
+  <text x="84" y="527" fill="#a3a3a3" font-family="monospace" font-size="12" letter-spacing="2">GUARDRAILS</text>
+  <g fill="#f5f5f5" font-family="Arial,sans-serif" font-size="16">
+    <text x="84" y="572">Time window</text>
+    <text x="349" y="572">Isolated checkouts</text>
+    <text x="704" y="572">Bounded retries</text>
+    <text x="934" y="572">No auto-merge</text>
+  </g>
+  <text x="84" y="678" fill="#737373" font-family="monospace" font-size="11" letter-spacing="1">ILLUSTRATIVE SYSTEM DESIGN — NOT A LIVE RUN RECEIPT</text>
+</svg>

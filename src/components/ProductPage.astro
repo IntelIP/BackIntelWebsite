@@ -5,10 +5,10 @@ import LiveMockup from "./LiveMockup.astro";
 import { absoluteUrl, siteName } from "../config/site";
 import { buildProductJsonLd } from "../config/seo.mjs";
 
-const { product, slug, Content } = Astro.props;
-const seoTitle = product.seoTitle ?? `${product.name} — IntelIP sample product page`;
+const { product, slug, Content, isHome = false } = Astro.props;
+const seoTitle = product.seoTitle ?? `${product.name} — IntelIP`;
 const seoDescription = product.seoDescription ?? product.description;
-const productUrl = absoluteUrl(`/projects/${slug}/`);
+const productUrl = absoluteUrl(isHome ? "/" : `/projects/${slug}/`);
 const jsonLd = buildProductJsonLd({
   siteName,
   siteUrl: absoluteUrl("/"),
@@ -29,17 +29,17 @@ const jsonLd = buildProductJsonLd({
 >
   <div class="product-page" style={`--product-accent: ${product.accent}`}>
     <header class="product-topbar">
-      <a class="product-topbar__brand" href="/" aria-label="Back to IntelIP portfolio">
+      <a class="product-topbar__brand" href="/" aria-label="BackIntel home">
         <span class="product-topbar__mark">{product.mark}</span>
-        <span>INTELIP <small>/ PRODUCTS</small></span>
+        <span>BACKINTEL <small>/ INTELIP</small></span>
       </a>
       <nav class="product-topbar__nav" aria-label="Product sections">
         <a href="#context">Context</a>
         <a href="#features">Features</a>
         <a href="#workflow">Workflow</a>
       </nav>
-      <span class="product-topbar__sample">PRODUCT SAMPLE / {product.code}</span>
-      <a class="product-topbar__back" href="/">Back to portfolio <span aria-hidden="true">↗</span></a>
+      <span class="product-topbar__sample">CONCEPT PREVIEW / {product.code}</span>
+      <a class="product-topbar__back" href="#next">Explore next step <span aria-hidden="true">↗</span></a>
     </header>
 
     <main>
@@ -75,8 +75,8 @@ const jsonLd = buildProductJsonLd({
           </div>
 
           <div class="product-hero__rail">
-            <span class="mono">01 / PRODUCT SAMPLE</span>
-            <span>Context → clarity → action</span>
+            <span class="mono">01 / MISSION MODEL</span>
+            <span>Ready story → isolated work → review</span>
             <span class="product-hero__rail-accent"><i></i> {product.name}</span>
           </div>
         </div>
@@ -95,9 +95,9 @@ const jsonLd = buildProductJsonLd({
           <div class="product-section__heading">
             <div>
               <p class="eyebrow"><span class="eyebrow__line"></span>01 / What it makes easier</p>
-              <h2 id="features-title">A shorter path from context <span>to next move.</span></h2>
+              <h2 id="features-title">Give each story a path <span>to review.</span></h2>
             </div>
-            <p>The product page carries the same IntelIP grammar: a strong thesis, one tangible artifact, and enough context to understand why the surface exists.</p>
+            <p>A bounded agent team can carry well-scoped work forward while preserving a clear human decision point.</p>
           </div>
 
           <div class="product-capability-grid">
@@ -118,9 +118,9 @@ const jsonLd = buildProductJsonLd({
           <div class="product-section__heading product-section__heading--inverse">
             <div>
               <p class="eyebrow"><span class="eyebrow__line"></span>02 / Working model</p>
-              <h2 id="workflow-title">Keep the interface quiet. <span>Keep the work moving.</span></h2>
+              <h2 id="workflow-title">Set the mission. <span>Review the result.</span></h2>
             </div>
-            <p>A project-level page should show how the product thinks, not only what it looks like. This is the story layer behind the artifact.</p>
+            <p>The lead coordinates work, workers build in isolation, and every outcome returns with checks and a clear status.</p>
           </div>
 
           <div class="product-flow">
@@ -173,9 +173,9 @@ const jsonLd = buildProductJsonLd({
 
     <footer class="product-footer">
       <div class="container product-footer__inner">
-        <span class="mono">{product.name} / SAMPLE PRODUCT PAGE</span>
-        <span class="mono">STATIC FIRST / ACCENT BY PRODUCT</span>
-        <a class="mono" href="/">IntelIP portfolio ↗</a>
+        <span class="mono">{product.name} / CONCEPT PREVIEW</span>
+        <span class="mono">ISOLATED WORK / HUMAN REVIEW</span>
+        <a class="mono" href="/">Back to top ↑</a>
       </div>
     </footer>
   </div>

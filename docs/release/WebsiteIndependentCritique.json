@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "scope": "Independent rendered critique of the revised local website; not human design approval or release readiness",
+  "acceptance_source": "docs/release/WebsiteRevisionPlan.txt",
+  "prior_pass_reused": false,
+  "summary": "Focused follow-up resolves both prior findings. The bounded 320px capture shows the complete readable pilot invitation and footer. Fresh mobile evidence shows spaces between all three paired pain-heading sentences. No material finding remains from this critique; this is not human design approval.",
+  "findings": [
+    {
+      "severity": "medium",
+      "surface": "artifacts/validation/BackIntelWebsite/Page320.png",
+      "state": "320px mobile, DPR2 full-page capture",
+      "region": {
+        "x": 0,
+        "y": 0.92,
+        "width": 1,
+        "height": 0.08
+      },
+      "principle": "Artifact integrity and responsive completeness",
+      "observation": "After the FAQ and the beginning of the final purple invitation, the capture repeats the header and opening hero instead of showing the final invitation and footer.",
+      "impact": "This image cannot establish that the final pilot invitation and footer render correctly at 320px. It does not establish a defect in the live page.",
+      "fix": "Capture only the final invitation and footer at 320px from the current preview and inspect that bounded replacement evidence.",
+      "confidence": 0.99,
+      "status": "resolved",
+      "resolution": "Closing320.png, a bounded DPR2 capture, shows the actual complete final invitation and footer without the prior repeated-hero capture anomaly."
+    },
+    {
+      "severity": "low",
+      "surface": "Business pain headings",
+      "state": "390px and 320px mobile",
+      "region": {
+        "x": 0,
+        "y": 0.1,
+        "width": 1,
+        "height": 0.1
+      },
+      "principle": "Typography and readability",
+      "observation": "The paired heading sentences join without spaces on mobile: problem.The, arrives.The, and corrected.An.",
+      "impact": "The main problem statement looks unfinished and is harder to scan, although its meaning remains understandable.",
+      "fix": "Preserve an explicit space between the sentence fragments when desktop line breaks collapse on mobile.",
+      "confidence": 0.99,
+      "status": "resolved",
+      "resolution": "Opening390.png and the refreshed Page390.png visibly show normal sentence spacing in all three pain headings."
+    }
+  ],
+  "positive_observations": [
+    "The opening explicitly describes recurring analysis and refresh after changed information.",
+    "Business pain precedes the useful packet, technology, workflow examples, demonstration and pilot invitation.",
+    "The desktop packet capture is sharp and distinguishes original evidence, interpretation, experimental prediction and human decision.",
+    "Technology names are paired with purposes; the scheduling, approved workflow, durable progress and shared presentation roles are visible.",
+    "Purple branding and readable dark text are consistent across the inspected renders.",
+    "Synthetic playback, unmeasured benefits, human authority and restricted source access are disclosed."
+  ],
+  "evidence": [
+    "artifacts/validation/BackIntelWebsite/Opening1440.png",
+    "artifacts/validation/BackIntelWebsite/Packet1440.png",
+    "artifacts/validation/BackIntelWebsite/Technology1440.png",
+    "artifacts/validation/BackIntelWebsite/Page390.png",
+    "artifacts/validation/BackIntelWebsite/Page320.png",
+    "artifacts/validation/BackIntelWebsite/Closing320.png",
+    "artifacts/validation/BackIntelWebsite/Opening390.png"
+  ],
+  "automated_checks": "The builder reports Browser.json passed at DPR2; this critique did not rerun or independently certify those checks.",
+  "human_design_approval": "pending; only Hudson can approve",
+  "exact_commit_release_readiness": "blocked: uncommitted candidate",
+  "review_cost_usd": null,
+  "writes": [
+    "docs/release/WebsiteIndependentCritique.json"
+  ],
+  "follow_up_scope": "Only the two existing findings were rechecked; no repeat broad review.",
+  "capture_note": "Fresh phone full-page captures are DPR1 overviews; bounded captures remain DPR2. Sharpness judgment uses the focused captures, not downscaled overview delivery."
+}

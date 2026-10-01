@@ -1,22 +1,30 @@
 import { getCollection } from "astro:content";
-import { absoluteUrl, siteOrigin } from "../config/site";
+import { absoluteUrl, siteIsPublic } from "../config/site";
 
 function escapeXml(value: string) {
   return value.replace(
     /[<>&'"]/g,
     (character) =>
-      ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[
-        character
-      ] ?? character,
+      ({
+        "<": "&lt;",
+        ">": "&gt;",
+        "&": "&amp;",
+        "'": "&apos;",
+        '"': "&quot;",
+      })[character] ?? character,
   );
 }
 
 export async function GET() {
-  const products = await getCollection("products", ({ data }) => data.visibility === "public");
-  const paths = ["/", ...products.map(({ id }) => `/projects/${id}/`)];
-  const sitemapOrigin = siteOrigin || "http://localhost:4321";
+  const products = await getCollection(
+    "products",
+    ({ id, data }) => data.visibility === "public" && id !== "backintel",
+  );
+  const paths = siteIsPublic
+    ? ["/", ...products.map(({ id }) => `/projects/${id}/`)]
+    : [];
   const urls = paths
-    .map((path) => `  <url><loc>${escapeXml(new URL(path, `${sitemapOrigin}/`).toString())}</loc></url>`)
+    .map((path) => `  <url><loc>${escapeXml(absoluteUrl(path))}</loc></url>`)
     .join("\n");
 
   return new Response(

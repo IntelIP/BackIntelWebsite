@@ -1,21 +1,22 @@
-import { absoluteUrl, siteOrigin } from "../config/site";
+import { absoluteUrl, siteIsPublic } from "../config/site";
 
 export function GET() {
+  const directive = siteIsPublic ? "Allow: /" : "Disallow: /";
   const lines = [
     "User-agent: *",
-    "Allow: /",
+    directive,
     "",
     "User-agent: OAI-SearchBot",
-    "Allow: /",
+    directive,
     "",
     "User-agent: ChatGPT-User",
-    "Allow: /",
+    directive,
     "",
     "User-agent: ExaSearchBot",
-    "Allow: /",
+    directive,
   ];
 
-  if (siteOrigin) {
+  if (siteIsPublic) {
     lines.push("", `Sitemap: ${absoluteUrl("/sitemap.xml")}`);
   }
 

@@ -29,7 +29,7 @@ mediaType: UI concept
 mediaCaption: Context made visible.
 demoDuration: "01:08"
 demoStatus: reserved
-visibility: public
+visibility: private
 featured: true
 hero:
   kicker: SAMPLE PRODUCT PAGE / ILLUSTRATIVE CONTENT

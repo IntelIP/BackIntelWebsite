@@ -1,0 +1,19 @@
+BackIntel five-minute showcase
+
+This is a recorded synthetic business case. Actual Jev, CatBoost and TabICLv2 executions are retained. Navigating the package makes no new model calls.
+
+0:00-0:40 — Show the problem. A support lead reads reports, checks queue measurements, assembles evidence and repeats that work after corrections.
+0:40-1:20 — Show the original Access report and the actual Jev interpretation. A message saying login failed is evidence about the report, not proof of its cause.
+1:20-2:05 — Compare CatBoost and TabICLv2, facts alone and facts plus Jev, against a baseline. The six synthetic selection cases do not prove customer accuracy.
+2:05-2:50 — Show the corrected Accounts report and refreshed packet. Accounts is about 26.4%; Access is about 78.7%. Both are experimental estimates.
+2:50-3:40 — Open the source evidence and inspect the retained versions. Explain what is verified, estimated and unknown.
+3:40-4:20 — Show the saved synthetic human review. React and the optional Python interface use the same local review API.
+4:20-5:00 — Show replay and limits. All 90 jobs were reused. Savings, revenue, customer accuracy and full operating costs remain to be measured.
+
+Recorded demo package
+The package is prepared for guided internal evaluation. Request access through IntelIP. It has not been published as an open-source release.
+When provided, extract BackIntelDemoBusinessV4.zip. Python 3.10+ is required.
+Run: python3 RunDemo.py --check
+Then: python3 RunDemo.py
+Open the local address printed by the launcher (default http://127.0.0.1:2053/).
+A new review affects only the extracted copy. Stop with Ctrl-C. Read Licensing.txt before redistribution.

@@ -1,77 +1,88 @@
 {
-  "product": "IntelIP PortfolioSite",
-  "version": "0.1.0",
-  "status": "foundation-approved",
-  "visualThesis": "Monochrome technical editorial: black, white, and gray foundation with controlled product-specific accents.",
+  "product": "BackIntel",
+  "version": "0.2.0",
+  "status": "implemented-awaiting-human-review",
+  "visualThesis": "Demo-aligned purple identity with a restrained opening for an autonomous data engineering, science and analysis agent. One GitHub action at the header right; workflow examples and recorded evidence support the reusable capability.",
   "audience": {
-    "primary": "prospective users, customers, and partners",
-    "secondary": "technical collaborators and evaluators",
+    "primary": "support leads and operations managers",
+    "secondary": "pilot partners and technical evaluators",
     "reviewBeforeVisualLock": true
   },
   "references": [
     {
-      "name": "Vercel Geist color system",
-      "url": "https://vercel.com/geist/colors",
-      "role": "neutral color scale and semantic roles"
+      "name": "Mobbin Linear task details",
+      "url": "https://mobbin.com/explore/screens/85e8d856-7f79-4a6e-9c06-c467ae2c22a3",
+      "role": "Case hierarchy, source evidence and review context"
     },
     {
-      "name": "Linear UI redesign",
-      "url": "https://linear.app/now/how-we-redesigned-the-linear-ui",
-      "role": "neutral base, accent, contrast, and opacity discipline"
+      "name": "Evidence",
+      "url": "https://evidence.dev/",
+      "role": "Short category and large real product surface; retain readable contrast"
     },
     {
-      "name": "shadcn/ui Typeset",
-      "url": "https://ui.shadcn.com/docs/typeset",
-      "role": "body, heading, mono, and content rhythm roles"
+      "name": "Plane",
+      "url": "https://plane.so/",
+      "role": "Clear introduction, actions and immediate app frame"
+    },
+    {
+      "name": "Front",
+      "url": "https://front.com/",
+      "role": "Operational-pain language; preserve BackIntel identity"
+    },
+    {
+      "name": "Trigger.dev",
+      "url": "https://trigger.dev/",
+      "role": "Visible developer route and GitHub"
     }
   ],
   "tokens": {
     "color": {
       "light": {
-        "canvas": "#FFFFFF",
-        "surface": "#F5F5F5",
+        "canvas": "#FAFAFD",
+        "navigation": "#F1F0F6",
+        "surface": "#FFFFFF",
         "surfaceRaised": "#FFFFFF",
-        "border": "#E5E5E5",
-        "text": "#171717",
-        "textMuted": "#737373"
-      },
-      "dark": {
-        "canvas": "#0A0A0A",
-        "surface": "#151515",
-        "surfaceRaised": "#1C1C1C",
-        "border": "#292929",
-        "text": "#F5F5F5",
-        "textMuted": "#A3A3A3"
+        "border": "#E5E4EC",
+        "text": "#25242B",
+        "textMuted": "#655F70",
+        "accent": "#7450D3",
+        "accentTint": "#F0EAFA"
       },
       "accentPolicy": {
         "neutralShareTarget": "90-95%",
-        "allowedRoles": ["product-marker", "active-link", "primary-cta", "focus-treatment"],
-        "disallowedDefaultRoles": ["full-page-background", "generic-success", "generic-warning", "generic-error"]
+        "allowedRoles": [
+          "product-marker",
+          "active-link",
+          "primary-cta",
+          "focus-treatment"
+        ],
+        "disallowedDefaultRoles": [
+          "full-page-background",
+          "generic-success",
+          "generic-warning",
+          "generic-error"
+        ]
       }
     },
     "typography": {
-      "sans": "Inter Variable",
+      "sans": "Instrument Sans",
       "mono": "JetBrains Mono Variable",
-      "fontSourceStatus": "provisional; self-host during implementation",
+      "fontSourceStatus": "Self-hosted 400/600; notice in public/fonts/InstrumentSans.LICENSE",
       "bodyLineHeight": 1.6,
       "readingMeasureCharacters": "65-75"
     },
     "layout": {
       "container": "shared centered responsive container",
       "grid": "consistent responsive grid",
-      "mobile": "intentional composition, not desktop-only stacking"
+      "mobile": "intentional composition, not desktop-only stacking",
+      "baseRadiusPx": 6
     }
   },
   "productAccents": {
-    "n10-ip": {
-      "label": "N10 IP",
-      "accent": "#2563EB",
-      "status": "provisional"
-    },
-    "neural": {
-      "label": "Neural",
-      "accent": "#16A34A",
-      "status": "provisional"
+    "backintel": {
+      "label": "BackIntel",
+      "accent": "#7450D3",
+      "status": "approved-direction"
     }
   },
   "componentPolicy": {
@@ -100,16 +111,59 @@
   ],
   "requiredViewports": ["mobile", "desktop"],
   "validation": {
-    "visualBaselineStatus": "pending",
+    "visualBaselineStatus": "previous-render-rejected-by-user; revised-render-pending-human-approval",
     "humanApprovalRequired": true,
     "reviewRenderedOutput": true,
     "contrastValidationRequired": true
   },
   "openDecisions": [
-    "primary audience and conversion action",
-    "final sans and mono families",
-    "exact accent values and foreground pairs",
-    "container widths, breakpoints, and spacing scale",
-    "approved visual direction and reference lock"
-  ]
+    "Human approval of the rendered draft",
+    "Public source license and publication authorization",
+    "Final deployment origin"
+  ],
+  "referenceLock": {
+    "primary": "Demo-aligned purple/light product-first presentation",
+    "preserve": [
+      "Exact React demo palette and Instrument Sans",
+      "Actual selected Access case with fresh 2x pixel coverage",
+      "Complete five-stage recorded example",
+      "Visible synthetic and human-decision boundaries",
+      "Static meaning and locally hosted assets"
+    ],
+    "borrow": [
+      "Mobbin case hierarchy",
+      "Evidence product-first opening",
+      "Plane action clarity",
+      "Front operational-pain framing",
+      "Trigger.dev developer route"
+    ],
+    "reject": [
+      "overnight coding team positioning",
+      "generic copied product copy",
+      "unmeasured ROI claims",
+      "decorative infinite animation",
+      "Separate teal branding",
+      "Transcript-style status copy in the main narrative",
+      "Unlabeled restricted source access",
+      "Faded product screenshots",
+      "Soft 1x screenshots on Retina displays",
+      "Demo setup as the main product proposition",
+      "Technology hidden only inside evidence disclosures",
+      "Duplicated navigation and hero GitHub actions",
+      "Hero workflow buttons and audience note",
+      "Operational-demo positioning as the full product category"
+    ],
+    "media": "Fresh business-v4 Access case captures at deviceScaleFactor 2, including 2560px desktop and 716px / 576px phone sources. No upscaling. Capture receipt: artifacts/validation/BackIntelWebsite/MobileProductCapture.json",
+    "routes": ["/"],
+    "states": [
+      "original report",
+      "interpretation",
+      "comparison",
+      "correction",
+      "human review"
+    ],
+    "viewports": [320, 390, 768, 1141, 1440],
+    "source": "docs/release/WebsiteRevisionPlan.txt",
+    "captureEvidence": "artifacts/research/WebsiteDirection/References.json"
+  }
 }

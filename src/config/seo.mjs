@@ -22,7 +22,15 @@ export function buildSiteJsonLd({ name, description, url }) {
   ];
 }
 
-export function buildProductJsonLd({ siteName, siteUrl, productUrl, product, title, description }) {
+export function buildProductJsonLd({
+  siteName,
+  siteUrl,
+  productUrl,
+  product,
+  title,
+  description,
+  applicationCategory = product.kind,
+}) {
   return [
     {
       "@context": "https://schema.org",
@@ -41,17 +49,33 @@ export function buildProductJsonLd({ siteName, siteUrl, productUrl, product, tit
       name: product.name,
       description,
       url: productUrl,
-      applicationCategory: product.kind,
+      applicationCategory,
       audience: { "@type": "Audience", audienceType: product.audience },
-      featureList: product.features.map(({ title: featureTitle }) => featureTitle),
+      featureList: product.features.map(
+        ({ title: featureTitle }) => featureTitle,
+      ),
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: siteName, item: siteUrl },
-        { "@type": "ListItem", position: 2, name: product.name, item: productUrl },
-      ],
-    },
+    ...(siteUrl === productUrl
+      ? []
+      : [
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: siteName,
+                item: siteUrl,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: product.name,
+                item: productUrl,
+              },
+            ],
+          },
+        ]),
   ];
 }

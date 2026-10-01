@@ -94,5 +94,11 @@ assert.equal(productJsonLd.length, 3, "product JSON-LD should include page, soft
 assert.deepEqual(productJsonLd.map((item) => item["@type"]), ["WebPage", "SoftwareApplication", "BreadcrumbList"]);
 assert.deepEqual(productJsonLd[1].featureList, ["Feature"]);
 
+const homeJsonLd = buildProductJsonLd({ siteName: "BackIntel", siteUrl: "https://example.com/",
+  productUrl: "https://example.com/", product: { name: "BackIntel", kind: "Operational intelligence", audience: "Teams", features: [{ title: "Review" }] },
+  title: "BackIntel", description: "Review operational evidence.", applicationCategory: "BusinessApplication" });
+assert.deepEqual(homeJsonLd.map((item) => item["@type"]), ["WebPage", "SoftwareApplication"]);
+assert.equal(homeJsonLd[1].applicationCategory, "BusinessApplication");
+
 evidenceStatus = "passed";
 console.log(`Product kit manifests and SEO builders passed: ${manifestPaths.length} manifests.`);

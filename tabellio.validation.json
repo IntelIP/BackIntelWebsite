@@ -1,27 +1,24 @@
 {
   "schemaVersion": "tabellio-validation/v0.2",
-  "id": "portfolio-site-design-specimen",
+  "id": "backintel-website-demo",
   "requireEntireCheckpoint": false,
   "failFast": true,
   "acceptance": {
-    "id": "portfolio-site-local-specimen",
-    "source": "docs/product-kit.md, docs/seo-and-agent-discovery.md, docs/design-language.md, and the approved localhost specimen brief",
+    "id": "backintel-business-technology-website",
+    "source": "docs/release/WebsiteRevisionPlan.txt and the approved execution request",
     "risk": "medium",
     "outcomes": [
-      "Astro renders a substantial monochrome portfolio and design-system specimen.",
-      "Product accents remain scoped to product identity and action roles.",
-      "The design profile stays machine-readable and deterministically validated.",
-      "Each public product page carries plain-English context, crawlable metadata, and static content.",
-      "The approved accessibility release target is a Lighthouse score of at least 0.90."
+      "Explain BackIntel as an autonomous agent for data engineering, data science and dataset analysis, with approved workflow execution and human oversight.",
+      "Use the simplified opening: one GitHub action at the header right, no hero buttons or audience note, followed by workflow pain, output, visible technology and supporting examples.",
+      "Match the demo purple palette and Instrument Sans; show the actual selected case with full 2x screenshot pixel coverage on desktop and mobile.",
+      "Expose all five recorded stages on desktop and mobile and show public MIT GitHub source links.",
+      "Keep static meaning, accessibility and business-focused SEO; require an explicit public origin and keep previews out of search."
     ],
     "invariants": [
-      "The prototype remains static and performs no Neon or production writes.",
-      "The base palette remains black, white, and gray.",
-      "Product accents do not become generic semantic status colors.",
-      "Cloudflare, domain, and analytics actions remain opt-in and credential-gated.",
-      "Analytics defaults to a no-op provider and emits no OpenPanel network surface when disabled.",
-      "The embedded demo keeps its state local and its responsive surface inside the product page.",
-      "Important product meaning remains visible in HTML and is not dependent on JavaScript or media."
+      "Static page; no provider calls, visitor persistence, production writes or analytics by default.",
+      "Synthetic data and unmeasured customer accuracy and business value stay visible.",
+      "The page uses product tokens, self-hosted fonts and reduced-motion behavior.",
+      "MIT licensing and GitHub source publication are authorized. Public hosting and domains remain separately authorized."
     ],
     "forbiddenOutcomes": [
       "SSR, database access, external deployment, or secret use is introduced by the prototype.",
@@ -29,17 +26,27 @@
       "Visitor changes in the demo are represented as production data or persisted outside the mockup.",
       "Visual readiness is reported without rendered review."
     ],
-    "requiredValidatorTypes": ["static", "schema", "workflow"]
+    "requiredValidatorTypes": [
+      "static",
+      "schema",
+      "workflow"
+    ]
   },
   "validators": [
     {
       "id": "design-profile-schema",
       "type": "schema",
-      "argv": ["npm", "run", "validate:profile"],
+      "argv": [
+        "npm",
+        "run",
+        "validate:profile"
+      ],
       "cwd": ".",
       "timeoutMs": 30000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/design-profile.json" },
+      "evidence": {
+        "path": "artifacts/validation/design-profile.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
@@ -49,11 +56,17 @@
     {
       "id": "astro-static-build",
       "type": "static",
-      "argv": ["npm", "run", "build:validation"],
+      "argv": [
+        "npm",
+        "run",
+        "build:validation"
+      ],
       "cwd": ".",
       "timeoutMs": 120000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/astro-build.json" },
+      "evidence": {
+        "path": "artifacts/validation/astro-build.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
@@ -63,11 +76,17 @@
     {
       "id": "product-kit-contract",
       "type": "static",
-      "argv": ["npm", "run", "test:product-kit"],
+      "argv": [
+        "npm",
+        "run",
+        "test:product-kit"
+      ],
       "cwd": ".",
       "timeoutMs": 30000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/product-kit.json" },
+      "evidence": {
+        "path": "artifacts/validation/product-kit.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
@@ -77,11 +96,17 @@
     {
       "id": "launch-kit-static",
       "type": "static",
-      "argv": ["npm", "run", "validate:launch-kit"],
+      "argv": [
+        "npm",
+        "run",
+        "validate:launch-kit"
+      ],
       "cwd": ".",
       "timeoutMs": 30000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/launch-kit.json" },
+      "evidence": {
+        "path": "artifacts/validation/launch-kit.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
@@ -91,11 +116,17 @@
     {
       "id": "live-mockup-tests",
       "type": "workflow",
-      "argv": ["npm", "run", "test:live-mockup"],
+      "argv": [
+        "npm",
+        "run",
+        "test:live-mockup"
+      ],
       "cwd": ".",
       "timeoutMs": 30000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/live-mockup.json" },
+      "evidence": {
+        "path": "artifacts/validation/live-mockup.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
@@ -105,11 +136,17 @@
     {
       "id": "analytics-provider-tests",
       "type": "workflow",
-      "argv": ["npm", "run", "test:analytics"],
+      "argv": [
+        "npm",
+        "run",
+        "test:analytics"
+      ],
       "cwd": ".",
       "timeoutMs": 30000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/analytics.json" },
+      "evidence": {
+        "path": "artifacts/validation/analytics.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,
@@ -119,11 +156,36 @@
     {
       "id": "astro-typecheck",
       "type": "workflow",
-      "argv": ["npm", "run", "typecheck"],
+      "argv": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
       "cwd": ".",
       "timeoutMs": 30000,
       "required": true,
-      "evidence": { "path": "artifacts/validation/typecheck.json" },
+      "evidence": {
+        "path": "artifacts/validation/typecheck.json"
+      },
+      "policy": {
+        "metricThresholds": [],
+        "maxCostUsd": null,
+        "requireCostTelemetry": false
+      }
+    },
+    {
+      "id": "backintel-browser",
+      "type": "workflow",
+      "argv": [
+        "node",
+        "scripts/check-backintel-page.mjs"
+      ],
+      "cwd": ".",
+      "timeoutMs": 120000,
+      "required": true,
+      "evidence": {
+        "path": "artifacts/validation/BackIntelWebsite/Browser.json"
+      },
       "policy": {
         "metricThresholds": [],
         "maxCostUsd": null,

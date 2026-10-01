@@ -14,3 +14,7 @@ artifacts/releases/
 !terraform.tfvars.example
 crash.log
 crash.*.log
+
+# Local research captures and private tracker handoff.
+artifacts/
+docs/release/AgentShiftWebsiteUpdate.txt

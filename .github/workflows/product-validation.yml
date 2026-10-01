@@ -51,7 +51,9 @@ jobs:
       - name: Build and record static evidence
         shell: bash
         env:
-          PUBLIC_SITE_URL: https://template.example
+          # Validation origin only. Public deployment requires its own explicit origin.
+          PUBLIC_SITE_URL: https://backintel.example.invalid
+          PUBLIC_SITE_MODE: preview
         run: |
           set +e
           npm run build > artifacts/validation/astro-build.log 2>&1
@@ -59,9 +61,12 @@ jobs:
           node scripts/record-build-evidence.mjs "$build_exit"
           exit "$build_exit"
 
-      - name: Run Lighthouse CI against production build
+      - name: Check recorded BackIntel walkthrough
         env:
-          PUBLIC_SITE_URL: https://template.example
+          PUBLIC_SITE_URL: https://backintel.example.invalid
+          PUBLIC_SITE_MODE: preview
+        run: node scripts/check-backintel-page.mjs
+      - name: Run Lighthouse CI against preview build
         run: npm run lighthouse:ci
 
       - name: Upload validation evidence

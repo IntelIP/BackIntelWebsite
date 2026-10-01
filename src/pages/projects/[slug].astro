@@ -3,7 +3,9 @@ import { getCollection, render } from "astro:content";
 import ProductPage from "../../components/ProductPage.astro";
 
 export async function getStaticPaths() {
-  const products = await getCollection("products", ({ data }) => data.visibility === "public");
+  const products = await getCollection("products", ({ id, data }) =>
+    data.visibility === "public" && id !== "backintel",
+  );
 
   return Promise.all(
     products.map(async (entry) => {

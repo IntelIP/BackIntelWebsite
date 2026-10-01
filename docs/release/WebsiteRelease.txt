@@ -1,0 +1,29 @@
+BackIntel website correction
+Updated: 2026-10-01
+
+Business objective
+Explain BackIntel as an autonomous agent specializing in data engineering, data science and dataset analysis. Its current bounded workflows prepare records and features, compare models, refresh affected findings and retain evidence for human oversight.
+
+Accepted direction
+WebsiteRevisionPlan.txt supersedes the rejected render. The visitor journey is business problem, decision packet, visible technology, workflow examples, demonstration evidence and measurable pilot. The opening is "Autonomous intelligence for your data workflows." The demo remains supporting evidence. Its purple identity and Instrument Sans are retained.
+
+Actual product imagery
+Fresh captures of the selected Access service queue case use deviceScaleFactor 2. Desktop source: 2560x1680. Phone sources: 716x1860 and 576x1860. The social card uses a fresh 1512px case capture. No old screenshot was upscaled. Very tall phone overview captures use DPR1 to avoid browser bitmap corruption; focused opening and final invitation/footer captures use DPR2. Image pixel-coverage checks run at DPR2.
+
+Technology and bounds
+The page visibly explains checked records, Jev typed observations, CatBoost and TabICLv2 comparison against a baseline, LangGraph coordination, Aegra scheduling, durable jobs and versioned evidence, and the shared packet presented by React and optional Reflex. All five Support playback stages remain available. This is a bounded workflow with human follow-up decisions.
+
+Evidence and claims
+The page uses retained model results on synthetic Support and Equipment data. It makes no new provider calls, saves no decisions and takes no customer action. Customer accuracy, saved time, revenue, local compute cost and net benefit remain unmeasured. A real pilot must compare preparation time, review quality and full cost with the current process.
+
+SEO and source
+The title is BackIntel | Autonomous AI for Data Workflows. The shared description names data engineering, data science and dataset analysis, with repeatable execution and human oversight. Visible copy, social copy, product metadata and llms.txt use this positioning. GitHub links point to the public MIT-licensed BackIntel source. Preview builds remain noindex with disallowed crawling and an empty sitemap. Public builds still require an explicit non-local HTTPS origin.
+
+Verification record
+See artifacts/validation/BackIntelWebsite/ReleasePreparation.json for current local check and critique results. Browser.json records four viewport widths, all five stages, font loading, palette, image coverage, accessibility, keyboard, reduced motion, links, static meaning and metadata. Lighthouse is a technical page check, not evidence of business positioning, indexing or ranking. Human design approval stays separate from mechanical checks and independent critique.
+
+Release boundary
+MIT licensing and GitHub source publication are authorized. Website checks bind their receipts to the committed candidate. Full BackIntel operating and real-world acceptance remain separate. Public deployment, DNS, outreach, paid inference and release publication are outside this source-publication task. The local preview is http://127.0.0.1:4324/.
+
+Latest browser corrections
+The header has Technology and Workflows navigation, with the single View on GitHub action at the right. The duplicated navigation GitHub badge, header workflow invitation, hero buttons and hero audience note are removed. The category, headline, opening paragraph, shared SEO, llms.txt, social card and supporting workflow language describe the autonomous data-agent capability. Support and Equipment remain synthetic implementation examples, not the entire product category. The selected viewport is 1141x854.

@@ -1,0 +1,37 @@
+BackIntel website correction — accepted execution scope
+
+Business objective
+Explain BackIntel as an autonomous agent specializing in data engineering, data science and dataset analysis. Show the recurring workflow burden, traceable output and current implementation bounds.
+
+Positioning
+Autonomous intelligence for your data workflows.
+BackIntel is an autonomous agent specializing in data engineering, data science and dataset analysis. It prepares data, compares models and refreshes findings through repeatable workflows, with traceable evidence and human oversight.
+
+Visitor journey
+Business problem -> useful output -> technology -> workflow examples -> demonstration evidence -> pilot invitation.
+
+Business pain
+An analyst reads reports, joins measurements, reconciles corrections and rebuilds evidence before each operational review. New information makes earlier analysis stale. Less repeated preparation, fewer stale findings and shorter decision delays are intended benefits. Their prevalence and financial value have not been measured with customers.
+
+Technology acceptance
+Explain each purpose visibly: checked source records; Jev typed interpretation; CatBoost and TabICLv2 comparisons with a baseline; LangGraph approved workflow; Aegra scheduling; durable jobs and versioned refresh; decision packets with sources and limits; shared React and optional Reflex presentation. Preserve the bounded workflow and human follow-up decision.
+
+Image acceptance
+Fresh 2x captures of the actual selected Access case from the recorded business-v4 package. Desktop and phone sources must cover their rendered widths at DPR2. Do not upscale previous images. The social card must use the larger actual case source.
+
+SEO acceptance
+Title: BackIntel | Autonomous AI for Data Workflows
+Description: An autonomous agent for data engineering, data science and dataset analysis. Prepare data, compare models and keep workflow results current with human oversight.
+Apply consistently to metadata, product content, shared description, social card and llms.txt. Retain preview noindex and explicit-origin public build policy.
+
+Preserved behavior
+All five Support playback stages. Native mobile selector. Keyboard access and reduced motion. Meaningful static content. Actual GitHub link with restricted-access disclosure. Synthetic limits and unmeasured business value.
+
+Done condition
+Local implementation complete; required build, browser and accessibility checks pass; fresh desktop/mobile renders receive independent critique. Automated checks and agent critique do not establish human design approval. Release readiness remains blocked while the candidate is uncommitted. No deployment or publication is authorized.
+
+Previous status
+The earlier rendered design was rejected by Hudson. This correction supersedes its copy and composition; previous mechanical passes were not human approval.
+
+Browser annotations — current execution requirements
+Remove the navigation GitHub/Private link and header Explore a workflow button. Move the hero View on GitHub action to the header right. Remove See how it works and the hero audience note. Correct the opening, metadata and shared descriptions to the autonomous data-agent category. Keep restricted-source disclosure in the remaining source area and footer. Match the selected 1141x854 viewport as well as required desktop and phone views.

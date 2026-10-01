@@ -49,6 +49,7 @@ const pagePaths = new Set(htmlRoutes.map(routeForFile));
 const productRoutes = htmlRoutes.filter((route) => route.startsWith("projects/"));
 const titles = new Set();
 const analyticsProvider = process.env.PUBLIC_ANALYTICS_PROVIDER?.trim() || "none";
+const siteIsPublic = process.env.PUBLIC_SITE_MODE === "public";
 const analyticsScriptUrl =
   process.env.PUBLIC_OPENPANEL_SCRIPT_URL?.trim() || "https://openpanel.dev/op1.js";
 
@@ -65,6 +66,7 @@ for (const route of htmlRoutes) {
 
   if (!/<meta name="description" content="[^"]+"/.test(html)) failures.push(`${route}: missing description`);
   if (!/<meta name="robots" content="[^"]+"/.test(html)) failures.push(`${route}: missing robots directive`);
+  if (!siteIsPublic && !/<meta name="robots" content="noindex, nofollow"/.test(html)) failures.push(`${route}: preview must remain noindex`);
   if (!/<meta property="og:title" content="[^"]+"/.test(html)) failures.push(`${route}: missing Open Graph title`);
   for (const landmark of ["header", "main", "nav", "footer"]) {
     if (!new RegExp(`<${landmark}(?:\\s|>)`).test(html)) failures.push(`${route}: missing ${landmark} landmark`);
@@ -122,13 +124,15 @@ const robots = read("robots.txt");
 for (const crawler of ["OAI-SearchBot", "ChatGPT-User", "ExaSearchBot"]) {
   if (!robots.includes(`User-agent: ${crawler}`)) failures.push(`robots.txt: missing ${crawler}`);
 }
-if (process.env.PUBLIC_SITE_URL?.trim() && !robots.includes("Sitemap:")) failures.push("robots.txt: missing sitemap link with PUBLIC_SITE_URL");
+if (siteIsPublic && !robots.includes("Sitemap:")) failures.push("robots.txt: missing public sitemap link");
+if (!siteIsPublic && (!robots.includes("Disallow: /") || robots.includes("Sitemap:"))) failures.push("robots.txt: preview must disallow crawling and omit the sitemap link");
 
 const sitemap = read("sitemap.xml");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
-if (sitemapUrls.length !== htmlRoutes.length) failures.push(`sitemap.xml: expected ${htmlRoutes.length} URLs, found ${sitemapUrls.length}`);
+const expectedSitemapUrls = siteIsPublic ? htmlRoutes.length : 0;
+if (sitemapUrls.length !== expectedSitemapUrls) failures.push(`sitemap.xml: expected ${expectedSitemapUrls} URLs, found ${sitemapUrls.length}`);
 if (sitemapUrls.some((url) => !/^https?:\/\//.test(url))) failures.push("sitemap.xml: every URL must be absolute");
-for (const path of pagePaths) {
+for (const path of siteIsPublic ? pagePaths : []) {
   if (!sitemapUrls.some((url) => new URL(url).pathname === path)) failures.push(`sitemap.xml: missing page ${path}`);
 }
 

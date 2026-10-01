@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "scope": "Focused independent rendered critique of the six browser-comment changes only.",
+  "acceptance_source": "docs/release/WebsiteRevisionPlan.txt",
+  "summary": "The simplified opening and header match the requested changes. The selected 1141x854 viewport and both phone openings remain legible. The opening and inspected metadata describe the autonomous data agent with repeatable workflows, traceable evidence and human oversight.",
+  "findings": [],
+  "verified_changes": [
+    "The separate GitHub/Private navigation item is absent.",
+    "The header workflow invitation is absent.",
+    "View on GitHub appears at the header right on desktop and phone.",
+    "See how it works is absent from the hero.",
+    "The former hero audience note is absent.",
+    "The rendered opening, metadata description and software schema identify data engineering, data science and dataset analysis; the social card matches that category."
+  ],
+  "visual_observations": [
+    "Purple branding, readable dark text and clear headline hierarchy remain consistent.",
+    "Header controls fit the inspected desktop and phone widths without visible clipping.",
+    "The social image keeps its headline, mark and synthetic-example disclosure inside the canvas.",
+    "The opening qualifies autonomy with repeatable workflows, traceable evidence and human oversight; it does not promise unrestricted self-directed work on arbitrary datasets."
+  ],
+  "evidence": [
+    "artifacts/validation/BackIntelWebsite/Opening1141.png",
+    "artifacts/validation/BackIntelWebsite/Opening1440.png",
+    "artifacts/validation/BackIntelWebsite/Opening320.png",
+    "artifacts/validation/BackIntelWebsite/Opening390.png",
+    "public/media/backintel-social.png",
+    "artifacts/validation/BackIntelWebsite/Browser.json"
+  ],
+  "automated_checks": "Existing Browser.json reports passed. This critique read its metadata and did not rerun browser checks.",
+  "limitations": "This narrow review does not recertify lower-page workflow behavior or implementation capabilities. The social card depicts a labeled synthetic example, not customer proof.",
+  "human_design_approval": "pending; this critique is not Hudson approval",
+  "exact_commit_release_readiness": "blocked: uncommitted local draft",
+  "review_cost_usd": null
+}
