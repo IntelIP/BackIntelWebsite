@@ -61,6 +61,21 @@ jobs:
           node scripts/record-build-evidence.mjs "$build_exit"
           exit "$build_exit"
 
+      - name: Install Chrome matching Puppeteer
+        run: |
+          node --input-type=module <<'JS'
+          import { appendFileSync } from 'node:fs';
+          import { join } from 'node:path';
+          import { PUPPETEER_REVISIONS } from 'puppeteer-core';
+          import { Browser, install } from '@puppeteer/browsers';
+          const browser = await install({
+            browser: Browser.CHROME,
+            buildId: PUPPETEER_REVISIONS.chrome,
+            cacheDir: join(process.env.RUNNER_TEMP, 'BackIntelChrome'),
+          });
+          appendFileSync(process.env.GITHUB_ENV, `CHROME_PATH=${browser.executablePath}\n`);
+          JS
+
       - name: Check recorded BackIntel walkthrough
         env:
           PUBLIC_SITE_URL: https://backintel.example.invalid
